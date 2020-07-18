@@ -63,7 +63,7 @@ class LRUCache:
 
 ## 2. 并发支持
 
-原生的 LRU Cache 显然不是并发安全的，因为每次 get 或者 set 都涉及到了链表节点移动的操作。要使得 LRU Cache 并发安全，最简单暴力的做法是，直接对整个 LRU Cache  加锁，每次 put、get 都需要 lock 一下，例如 1.8k stars 的 https://github.com/hashicorp/golang-lru，以及字节内部经常使用的 https://code.byted.org/gopkg/inmem，以及基于该库进行二层封装的其他共用库。代码差不多长这样子：
+原生的 LRU Cache 显然不是并发安全的，因为每次 get 或者 set 都涉及到了链表节点移动的操作。要使得 LRU Cache 并发安全，最简单暴力的做法是，直接对整个 LRU Cache  加锁，每次 put、get 都需要 lock 一下，例如 1.8k stars 的 https://github.com/hashicorp/golang-lru，以及基于该库进行二层封装的其他共用库。代码差不多长这样子：
 
 ```go
 func (l *lockedCache) Add(key, value interface{}, expiresAt time.Time) {
@@ -79,13 +79,13 @@ func (l *lockedCache) Get(key interface{}) (interface{}, bool) {
 }
 ```
 
-这样导致的问题是，当并发 Get 操作很多的时候，Get 操作已经变成串行。也就说对整个 Cache 进行加锁是不明智的。例如，抖音的 user info 服务就遇过这样的坑：https://study-tech.bytedance.net/articles/8424
+这样导致的问题是，当并发 Get 操作很多的时候，Get 操作已经变成串行。也就说对整个 Cache 进行加锁是不明智的。
 
 ### 解决1：分桶
 
 将一个 hashtable 根据 key 拆分成多个 hashtable，每个 hashtable 对应一个锁，锁粒度更细，冲突的概率也就更低了。
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=ba501dc654c6088e8956df0c9da742a6_8f118824ce50c961_boxcnXokyQ3UrPT8rO0BhFEdtXZ_ZzUChnsgp5xCSrgljtRhCs8gM4wKrItt)
+![img](https://i.ibb.co/6mxr7dS/1.png)
 
 ### 解决2：延缓提权
 
@@ -134,7 +134,7 @@ type cacheShard struct {
 
 每个 shard 的结构如图所示。在 BigCache 的实现中，map 的 key 为原始 key 的哈希值 (uint64)，value 则为一个 int 类型的 index。其中，index 对应底层 ByteQueue 中的某个位置，在读取操作时，BigCache 从 ByteQueue 中取出序列化的 [] byte 片段，从而还原出 value 信息。
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=ff135bf978e46fb774632d3372b58783_8f118824ce50c961_boxcnfTRfpflueUzGuYYcvNEobc_yaXBQ8Tku6uTKhRS1STjJC2aDpxFBk4G)
+![img](https://i.ibb.co/NYKQ5Vq/2.png)
 
 #### Set 操作
 
@@ -275,7 +275,7 @@ type entryPtr struct {
 }
 ```
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=466e52807b9ef045c79365f73c70f09a_8f118824ce50c961_boxcnJ36hbv4DnpJ0FXqDISi0ee_I9BZtWVY2xqnx8bzD3Fbi2C9T7LEtBeh)
+![img](https://i.ibb.co/KXFrGt6/3.png)
 
 #### Set 操作
 
@@ -455,7 +455,7 @@ func (c *Cache) promote(item *Item) {
 }
 ```
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=a2152ea791855a0d3a254d8e713d84c5_8f118824ce50c961_boxcnGcXV1kwWSps7uJdkCtMn3d_oqNTfVHbX7b9rdWOBdEHHXp4tJjvyLov)
+![img](https://i.ibb.co/XyB2dmL/6.png)
 
 #### Get 操作
 
@@ -477,7 +477,7 @@ func (c *Cache) Get(key string) *Item {
 }
 ```
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=77fd6ec855e435eab318f9089f6ffdd0_8f118824ce50c961_boxcnNTWmGldnLypleKjgzXUdmb_LvkIe6Z3TT2TVBhtiTEdMsHGBQWKKHJR)
+![img](https://i.ibb.co/qRFbnhS/7.png)
 
 #### 清道夫协程
 
@@ -538,19 +538,19 @@ CCache 主要使用了延缓提权、分桶策略，来减少并发获取 key �
 
 在只读场景下，BigCache 性能最优，因为在 BigCache 中对分片用了读写锁，所以只读场景下是无锁的。而 FreeCache 以及 GroupCache 在读场景下都需要对分片进行操作，因此加了 mutex，因此性能次于 BigCache。
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=da4a9b25062bfbc940b4c7035b655ebe_8f118824ce50c961_boxcneLNUTXqcgbW8AuAEF8ytWd_hvjLtRWlPQxQyAGigBF70dj8OT1byPZ9)
+![img](https://i.ibb.co/fDGQQt1/8.png)
 
 #### 只写
 
 在只写场景下，三者性能差别不大，但是 FreeCache 性能更优。
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=91a07bfade82e9b6d090957448612090_8f118824ce50c961_boxcnhjEmaTih8TSxMfqOcY0tGe_TN1rJrMFUp0PdBAqCflDhYBJu9ot1dZU)
+![img](https://i.ibb.co/9g4TCp8/4.png)
 
 #### 混合读写 (25% writes, 75% reads)
 
 看起来只有 BigCache 对并发友好。
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=739b7552dfe3c6365bf3ad4828d570fd_8f118824ce50c961_boxcn3RjvhXx7wriV0OmlNgZ1dh_Pi0VTucZV0dPm8YWiImWeiIfbuKYIPPo)
+![img](https://i.ibb.co/XDC7BbX/5.png)
 
 #### Zipf 分布缓存命中率
 
