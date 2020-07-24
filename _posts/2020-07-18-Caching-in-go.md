@@ -612,7 +612,7 @@ BenchmarkCaches/GroupCacheZipfRead-4       10563777        126 ns/op        0 B/
 
 ## 5. 展望
 
-缓存有很多种，本文只介绍了 Golang 生态下几个著名的 Cache，其中 FreeCache 跟 CCache 是 LRU 策略，而 BigCache 是 FIFO 策略。但是仍然可以有更好的淘汰策略值得探索，例如 Java 生态下非常有名的 Caffeine，使用了 Tiny-LRU（作者声称已经接近最优解），但是似乎 Golang 生态下的经过工业级验证过的使用其他更优淘汰策略的 Cache 还是欠缺的。
+缓存有很多种，本文只介绍了 Golang 生态下几个著名的 Cache，其中 FreeCache 跟 CCache 是 LRU 策略，而 BigCache 是 FIFO 策略。但是仍然可以有更好的淘汰策略值得探索，例如 Java 生态下非常有名的 Caffeine，使用了 Tiny-LFU（作者声称已经接近最优解），但是似乎 Golang 生态下的经过工业级验证过的使用其他更优淘汰策略的 Cache 还是欠缺的。
 
 ## 6. Reference
 
