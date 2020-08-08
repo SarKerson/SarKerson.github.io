@@ -4,7 +4,6 @@ title:      Go 生态下的 Cache 评测
 subtitle:   Caching in Go
 date:       2020-07-18
 author:     Eric.Y
-header-img: img/post-bg-ios9-web.jpg
 catalog: true
 tags:
     - golang
