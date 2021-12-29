@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xml:lang="en-US" xml:base="https://developers.facebook.com/"
+	xmlns="http://www.w3.org/2005/Atom">
+	<rights>Copyright (c) Meta Platforms, Inc. and affiliates.</rights>
+	<id>urn:uuid:6c306ca7-ff0b-4f7a-b371-92964eac0f14</id>
+	<title>Facebook Developers</title>
+	<subtitle>The latest news and announcements from Facebook Platform including APIs, SDKs, social plugins and Parse.</subtitle>
+	<updated>2021-12-20T18:36:41+00:00</updated>
+	<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/"/>
+	<link rel="self" type="application/atom+xml" href="https://developers.facebook.com/blog/feed/"/>
+	<author>
+		<name>Facebook Developers</name>
+		<uri>https://developers.facebook.com/</uri>
+	</author>
+	<icon>https://static.xx.fbcdn.net/rsrc.php/yv/r/B8BxsscfVBr.ico</icon>
+	<logo>https://static.xx.fbcdn.net/rsrc.php/v3/yb/r/-Hn0KbzDJps.png</logo>
+	<entry>
+		<id>tag:developers.facebook.com,2021-12-28:blog:p10220162911128684</id>
+		<title>Mapillary: A Contributor’s Story with Omar Ali</title>
+		<updated>2021-12-15T23:48:16+00:00</updated>
+		<published>2021-12-28T17:00:00+00:00</published>
+		<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/post/2021/12/28/mapillary-contributor-story-omar-ali/"/>
+		<summary>In A Contributor’s Story series, our major open source contributors and community members give us insight into the projects they are working on, the successes and challenges contributors face when developing, and best practices for getting started in open source. For today’s blog post, we have Hammad Khalid, a Stylex contributor working on issues and code efficiency through the MLH Fellowship. Let’s learn from them how we can start contributing to Stylex.</summary>
+	</entry>
+	<entry>
+		<id>tag:developers.facebook.com,2021-12-21:blog:p3207914346104248</id>
+		<title>Simplifying campaign objectives with Outcome-Driven Ad Experiences</title>
+		<updated>2021-12-20T18:36:41+00:00</updated>
+		<published>2021-12-21T20:00:00+00:00</published>
+		<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/post/2021/12/21/simplifying-campaign-objectives-outcome-driven-ad-experiences/"/>
+		<summary>In order to effectively guide advertisers to optimal campaign setups, we are redesigning the objective selection experience when creating new campaigns in Ads Manager. We are moving to an Outcome based Ads Manager, where advertisers can select their designed business outcomes (e.g. Awareness, Traffic, Engagement, Leads, App Promotion, Sales) and the interface will guide advertisers to the most optimal campaign setup/creation paths to achieve that outcome.</summary>
+	</entry>
+	<entry>
+		<id>tag:developers.facebook.com,2021-12-21:blog:p10220158376415319</id>
+		<title>Antlir: A Contributor’s Story with Gabriel Baiocchi de Sant'Anna</title>
+		<updated>2021-12-15T00:33:10+00:00</updated>
+		<published>2021-12-21T17:00:00+00:00</published>
+		<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/post/2021/12/21/antlir-contributor-story-gabriel-baiocchi-des-ant-anna/"/>
+		<summary>In A Contributor’s Story series, our major open source contributors and community members give us insight into the projects they are working on, the successes and challenges they face when developing, and best practices for getting started in open source. For today’s blog post, we have Gabriel Baiocchi de Sant'Anna, an Antlir contributor working on issues and code efficiency through the MLH Fellowship. Let’s learn from them how we can start contributing to Antlir.</summary>
+	</entry>
+	<entry>
+		<id>tag:developers.facebook.com,2021-12-20:blog:p10220157766040060</id>
+		<title>Experiencing the All Things Open 2021 conference</title>
+		<updated>2021-12-14T22:36:59+00:00</updated>
+		<published>2021-12-20T17:00:00+00:00</published>
+		<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/post/2021/12/20/experiencing-all-things-open-2021-conference/"/>
+		<summary>Conferences play a major role in the growth and development of any technologist. They are the place where you meet like-minded individuals, learn from each other, identify and adopt emerging technology and grow holistically as an engineer. All Things Open (ATO) is one of the largest open source conferences in North America, and it offers a unique opportunity to meet developers from all over the world that are working on open source technologies. With 90% of IT leaders using enterprise open source today, ATO is a conference you don’t want to miss.</summary>
+	</entry>
+	<entry>
+		<id>tag:developers.facebook.com,2021-12-16:blog:p10112671707114173</id>
+		<title>Celebrate the Season With Sharing to Stories</title>
+		<updated>2021-12-14T18:48:32+00:00</updated>
+		<published>2021-12-16T16:00:00+00:00</published>
+		<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/post/2021/12/16/celebrate-season-sharing-to-stories/"/>
+		<summary>Sharing to Stories enables our partners to help people express themselves in fresh and exciting ways. This holiday season, we’re thrilled to announce a new collaboration with a few of our partners. The end of the year marks an important time for reflection - How did I spend my time this year? What have I learned? What did I create? For many of us, the mobile apps we use are an amazing mechanism to reflect on these questions, and</summary>
+	</entry>
+	<entry>
+		<id>tag:developers.facebook.com,2021-12-14:blog:p10220132161639966</id>
+		<title>Stylex: A Contributor’s Story with Hammad Khalid</title>
+		<updated>2021-12-09T18:15:41+00:00</updated>
+		<published>2021-12-14T17:00:00+00:00</published>
+		<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/post/2021/12/14/stylex-contributor-story-hammad-khalid/"/>
+		<summary>In A Contributor’s Story series, our major open source contributors and community members give us insight into the projects they are working on, the successes and challenges contributors face when developing, and best practices for getting started in open source. For today’s blog post, we have Hammad Khalid, a Stylex contributor working on issues and code efficiency through the MLH Fellowship. Let’s learn from them how we can start contributing to Stylex.</summary>
+	</entry>
+	<entry>
+		<id>tag:developers.facebook.com,2021-12-13:blog:p10227987992872262</id>
+		<title>ELI5: Hermes - Optimizing Performance in Mobile Applications</title>
+		<updated>2021-12-09T17:58:55+00:00</updated>
+		<published>2021-12-13T17:00:00+00:00</published>
+		<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/post/2021/12/13/hermes-eli5-optimizing-performance-mobile-applications/"/>
+		<summary>Here at Meta, we have teams dedicated to continuously improving the performance of our mobile apps as we add new features and complexity. A large part of that work involves optimizing JavaScript performance in constrained mobile environments.</summary>
+	</entry>
+	<entry>
+		<id>tag:developers.facebook.com,2021-12-02:blog:p10158998145517058</id>
+		<title>Meet the Rustaceans: Daniel Porteous</title>
+		<updated>2021-11-23T21:37:52+00:00</updated>
+		<published>2021-12-02T17:00:00+00:00</published>
+		<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/post/2021/12/02/meet-rustaceans-daniel-porteous/"/>
+		<summary>For today’s interview, we have Daniel Porteous, a Production Engineer on the IaaS Resources team at Meta. The IaaS Resources team is responsible for building systems that move machines between ownership domains without compromising on races and errors that lead to accounting issues. While working on this team, Daniel has been using Rust as one of the main languages for development. Most of his work these days centers around the Twine Experimentation Framework (TWEF), which enables users to acquire hardware, apply host level changes, start workloads, run custom automation, and ultimately clean up changes safely, all with a single request. Let’s hear from Daniel about how his experience with Rust has been and learn more about his work.</summary>
+	</entry>
+	<entry>
+		<id>tag:developers.facebook.com,2021-12-09:blog:p4825688517494956</id>
+		<title>drgn: How the Linux Kernel Team at Meta Debugs the Kernel at Scale</title>
+		<updated>2021-12-03T23:38:52+00:00</updated>
+		<published>2021-12-09T17:00:00+00:00</published>
+		<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/post/2021/12/09/drgn-how-linux-kernel-team-meta-debugs-kernel-scale/"/>
+		<summary>drgn (pronounced “dragon”) is a debugger that exposes the types and variables in a program for easy, expressive scripting in Python. The Linux kernel team at Meta originally built drgn to make it easier to investigate the kinds of difficult Linux kernel bugs that the team encounters at Meta. The team has since added further use cases for it, like monitoring and userspace memory profiling. This blog discusses why we built drgn, how drgn works, how to use it, and what the team would like to do with drgn next. The drgn project is open source and available in the drgn GitHub repo for you to try.</summary>
+	</entry>
+	<entry>
+		<id>tag:developers.facebook.com,2021-12-08:blog:p10222547648212562</id>
+		<title>Updating Meta’s Detailed Targeting options starting January 19, 2022</title>
+		<updated>2021-12-08T21:16:18+00:00</updated>
+		<published>2021-12-08T22:00:00+00:00</published>
+		<link rel="alternate" type="text/html" href="https://developers.facebook.com/blog/post/2021/12/08/updating-metas-detailed-targeting-options/"/>
+		<summary>We strongly believe that the best advertising experiences are personalized. They enable people to discover products and services from small businesses that may not have the ability to market them on broadcast television or other forms of media.</summary>
+	</entry>
+</feed>
