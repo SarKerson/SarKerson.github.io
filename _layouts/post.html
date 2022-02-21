@@ -88,6 +88,7 @@
                     {% endif %}
                 </ul>
 
+
                 <!--Gitalk评论start  -->
                 {% if site.gitalk.enable %}
                 <!-- 引入Gitalk评论插件  -->
@@ -123,6 +124,11 @@
                 </div>
                 <!-- disqus 评论框 end -->
                 {% endif %}
+
+                <div class="comment">
+                    <script src="https://utteranc.es/client.js" repo="Sar-Kerson/Sar-Kerson.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
+                    </script>
+                </div>
 
             </div>
 
@@ -178,8 +184,6 @@
     </div>
 </article>
 
-<script src="https://utteranc.es/client.js" repo="Sar-Kerson/Sar-Kerson.github.io" issue-term="pathname" theme="github-light" crossorigin="anonymous" async>
-</script>
 
 {% if site.disqus_username %}
 <!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
