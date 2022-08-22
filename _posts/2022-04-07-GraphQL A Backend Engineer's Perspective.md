@@ -7,7 +7,6 @@ author:     Eric.Y
 catalog: true
 tags:
     - graphql
-	- architecture
 ---
 
 # GraphQL：A Backend Engineer's Pespective
