@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      GraphQL：A Backend Engineer's Pespective
-subtitle:   GraphQL：A Backend Engineer's Pespective
+title:      GraphQL A Backend Engineer's Pespective
+subtitle:   GraphQL A Backend Engineer's Pespective
 date:       2022-05-20
 author:     Eric.Y
 catalog: true
