@@ -6,7 +6,8 @@ date:       2022-04-07
 author:     Eric.Y
 catalog: true
 tags:
-	- architecture
+    - architecture
+    - graphql
 ---
 
 # GraphQL：A Backend Engineer's Pespective
