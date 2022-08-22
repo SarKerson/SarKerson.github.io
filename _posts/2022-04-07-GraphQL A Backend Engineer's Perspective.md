@@ -6,7 +6,6 @@ date:       2022-04-07
 author:     Eric.Y
 catalog: true
 tags:
-    - graphql
 	- architecture
 ---
 
