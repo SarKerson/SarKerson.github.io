@@ -32,7 +32,7 @@ tags:
 
 因此 GraphQL 的名字非常生动形象，抽象了从多种异构存储或者服务中获取数据的过程。
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=NjU2OWNhYWJlOGI3NWE4ZDE2ZWYyYTc4NTFiMjE1ZWRfOHNCVEZTQzRWWTFMeTAwSlRPRlFYUVBPR01JaTMwcXJfVG9rZW46Ym94Y25UcFd0OUVDWjVCMmVEeGl4blhLRVJiXzE2NjExNzMzNjQ6MTY2MTE3Njk2NF9WNA)
+![img](https://pic4.zhimg.com/v2-5f8355edc68df2b74d23a494c810a733_r.jpg)
 
 下面简单介绍 GraphQL 对于 RestFul 的一些优劣。
 
@@ -80,7 +80,7 @@ tags:
 
 1. 所有 loader 执行完毕（或者超时），执行 packer 的打包逻辑，将 datum 映射为 packed doc；
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=M2U1NjRmMzgzODllNjVkOTkyMGI0ZWY4NDhmOTk5YjFfMHI2TXh6dTY5ZXhOSzlFWkhmTnR0cEN6N2U1OUJmWXpfVG9rZW46Ym94Y251anJudUFJZnFqcklqUVI0RjlpRERnXzE2NjExNzM0Nzg6MTY2MTE3NzA3OF9WNA)
+![img](https://pic4.zhimg.com/v2-91433f706b3cb750452d7b074a334247_r.jpg)
 
 但是，这样的做法存在一些问题：
 
@@ -126,7 +126,7 @@ tags:
 
 > All problems in computer science can be solved by another level of indirection.
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=NGRmNTYzNGQ1NmNmY2ZjYWNlMjExZWE2ODgyZjg2YTlfZHg5MDFlNFRlRFhYWVF3ZDBOTW94TW1zTjRQbEg5RGtfVG9rZW46Ym94Y25MNGczdFVjNDBjWHdXYWV6UVRRc2VkXzE2NjExNzMyOTE6MTY2MTE3Njg5MV9WNA)
+![img](https://pic2.zhimg.com/v2-8c24b8aab9c83c5d17303b7eee2125d5_r.jpg)
 
 主要目的在于，避免在数据图中，混入展示层的逻辑。
 
@@ -138,7 +138,7 @@ tags:
 
 ### 查询模型归一
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=Nzk5ZGI5MzViZDg4Zjk5YTEwZjNlZTdhZTZjMzdiMTFfelRrdjRBck1CcTlHcDd5VEF1c3NxN09nWlhKTklWb2ZfVG9rZW46Ym94Y25ScE1VUnZCODlwTzFLTnIzVjRFbFJOXzE2NjExNzMyOTE6MTY2MTE3Njg5MV9WNA)
+![img](https://pic4.zhimg.com/v2-5c49a9cc7b1a364e0d1097a750ed05fb_r.jpg)
 
 每个查询模型相当于一个场景。
 
@@ -152,7 +152,7 @@ tags:
 
 ### 元数据驱动
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=MjM4MmVjZjBjMmExNzNlNmE1NGIwZmU0Y2VjZjJjYTJfcFZwNjUwQTNrem9nZTRobEFLSjhTQmRYTUgxeU9wb1dfVG9rZW46Ym94Y25NVHVQckd0QmFhbmtYWlRtWXpUOVZkXzE2NjExNzMyOTE6MTY2MTE3Njg5MV9WNA)
+![img](https://pic3.zhimg.com/v2-6112f131a42a99a4e165fc5108d0399a_r.jpg)
 
 整体架构由三个核心部分组成：
 
@@ -194,13 +194,13 @@ Thrift/GraphQL 转换器应用在展示层。在 AirBnb 的架构中，展示层
 
 所有的 GraphQL 查询逻辑和 schema 定义全部都是通过展现服务层定义的 Thrfit 自动构建出来的。如果想让自己负责的展现服务层支持 GraphQL，只需把转换器模块包含进来即可。
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=MGNiNTM5OGJkNjUyNzk1NmMyZGU2YTgxMDYxNzFlZjFfdTNKeWpKSFNNZFBVeTJteFlYOHdhbVY5dGRjdmlUdUJfVG9rZW46Ym94Y254Y2UxSFhNV3RoRm1aUFI0eWJ1cjJlXzE2NjExNzMyOTE6MTY2MTE3Njg5MV9WNA)
+![img](https://pic2.zhimg.com/v2-5e780cb34a80f4841fe73d3d64af8ca1_r.jpg)
 
 ## 头条直播
 
 直播的 packer 很有 GraphQL 特色，通过定义每个字段的 resolver 来确定字段的打包逻辑，一个 resolver 可能包含一个或多个 loader。然后根据 IDL 生成的 graph 来确定请求 field 的依赖，只加载对应的数据。
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=YmRkYmI5YWM4YmI5NDQwYmNkMGNiMjljOTkxMzM5MWNfeng4WGp6R3QzMGl4a0FYbWhBMUZmbWVkSnlaRGtpQVNfVG9rZW46Ym94Y254V1M5cm9WQ0VNV0E2TEZjVmM0bkRmXzE2NjExNzMyOTE6MTY2MTE3Njg5MV9WNA)
+![img](https://pic2.zhimg.com/v2-60c0585808f8db088a91f12d34b1b911_r.jpg)
 
 1. 优点：
    1. load、pack 逻辑内聚在字段内，易于理解和维护
@@ -227,7 +227,7 @@ Thrift/GraphQL 转换器应用在展示层。在 AirBnb 的架构中，展示层
 
 实际上，上述两者完全可以相结合，下面描述一种 BFF 网关思路：
 
-![img](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=NGYyODM1YzBiNWM5ZGE3MDk1NjFkNTQ5Zjc5NWJjNWZfQXVxam5ua2I3M0xZSFhVYm4yV3p4NnhCMXBiY2J3aTlfVG9rZW46Ym94Y25oYnh4aHBQUVpPZVpwamhNMW1oTElnXzE2NjExNzM1MjE6MTY2MTE3NzEyMV9WNA)
+![img](https://pic4.zhimg.com/v2-8d6d7a1977ef0ee1da2a15f74a02a423_r.jpg)
 
 注：上图场景层/展示层/实体层都是提供一个平台进行管控。
 
