@@ -3,6 +3,16 @@ layout: page
 description: "Thinking will not overcome fear but action will."
 ---
 
+<!-- Add Tools page link to navigation -->
+<nav>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/tags">Tags</a></li>
+    <li><a href="/tools">Tools</a></li> <!-- New Tools page link -->
+  </ul>
+</nav>
+
 {% for post in paginator.posts %}
 <div class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">
