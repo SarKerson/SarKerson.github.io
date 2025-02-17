@@ -1,0 +1,230 @@
+---
+layout: page
+title: "音调转换器"
+description: "简谱音调转换工具"
+header-style: text
+hide-in-nav: true
+---
+
+<style>
+.transposer-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.input-area {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.preview-area {
+    width: 100%;
+    min-height: 200px;
+    margin: 20px 0;
+    padding: 10px;
+    border: 2px dashed #d2d2d7;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.preview-area.dragover {
+    border-color: #0066cc;
+    background: rgba(0, 102, 204, 0.1);
+}
+
+.preview-area img {
+    max-width: 100%;
+    max-height: 400px;
+    display: none;
+}
+
+.preview-text {
+    color: #86868b;
+    text-align: center;
+}
+
+.result-area {
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.recognized-text {
+    font-family: monospace;
+    white-space: pre-wrap;
+    padding: 15px;
+    background: #f5f5f7;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.button {
+    background: #0066cc;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background: #004499;
+}
+
+.button:disabled {
+    background: #999;
+    cursor: not-allowed;
+}
+
+.loading {
+    display: none;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.error-message {
+    color: #ff3b30;
+    margin-top: 10px;
+    display: none;
+}
+</style>
+
+<!-- 引入 Tesseract.js -->
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+
+<div class="transposer-container">
+    <h1>简谱音调转换器</h1>
+    <p class="description">上传简谱图片，我们将自动识别简谱内容。</p>
+
+    <div class="input-area">
+        <div class="preview-area" id="dropZone">
+            <p class="preview-text">拖拽简谱图片到这里，或点击上传</p>
+            <img id="preview" alt="预览图片">
+            <input type="file" id="fileInput" accept="image/*" style="display: none">
+        </div>
+        <div class="error-message" id="errorMessage"></div>
+        <div class="loading" id="loading">
+            <p>正在识别简谱内容，请稍候...</p>
+        </div>
+        <button class="button" id="recognizeBtn" disabled>开始识别</button>
+    </div>
+
+    <div class="result-area" id="resultArea">
+        <h3>识别结果：</h3>
+        <div class="recognized-text" id="recognizedText"></div>
+    </div>
+</div>
+
+<script>
+// 初始化 Tesseract
+const worker = await Tesseract.createWorker({
+    logger: progress => {
+        console.log(progress);
+    }
+});
+
+// 配置 Tesseract
+await worker.loadLanguage('eng');
+await worker.initialize('eng');
+// 设置识别参数，优化对数字和特殊符号的识别
+await worker.setParameters({
+    tessedit_char_whitelist: '0123456789.-#b',
+});
+
+// 文件处理相关变量
+let currentFile = null;
+
+// 获取DOM元素
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const preview = document.getElementById('preview');
+const recognizeBtn = document.getElementById('recognizeBtn');
+const loading = document.getElementById('loading');
+const resultArea = document.getElementById('resultArea');
+const recognizedText = document.getElementById('recognizedText');
+const errorMessage = document.getElementById('errorMessage');
+
+// 拖放处理
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+});
+
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('dragover');
+});
+
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+});
+
+// 点击上传
+dropZone.addEventListener('click', () => {
+    fileInput.click();
+});
+
+fileInput.addEventListener('change', (e) => {
+    handleFiles(e.target.files);
+});
+
+// 处理文件
+function handleFiles(files) {
+    const file = files[0];
+    if (file && file.type.startsWith('image/')) {
+        currentFile = file;
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+        document.querySelector('.preview-text').style.display = 'none';
+        recognizeBtn.disabled = false;
+        errorMessage.style.display = 'none';
+    } else {
+        errorMessage.textContent = '请上传有效的图片文件';
+        errorMessage.style.display = 'block';
+    }
+}
+
+// 识别简谱
+recognizeBtn.addEventListener('click', async () => {
+    if (!currentFile) return;
+
+    try {
+        loading.style.display = 'block';
+        recognizeBtn.disabled = true;
+        resultArea.style.display = 'none';
+        errorMessage.style.display = 'none';
+
+        const result = await worker.recognize(currentFile);
+        
+        // 处理识别结果，只保留数字和特殊符号
+        const cleanedText = result.data.text
+            .replace(/[^\d\s.#b-]/g, '') // 只保留数字、空格、点、#、b和减号
+            .replace(/\s+/g, ' ') // 规范化空格
+            .trim();
+
+        recognizedText.textContent = cleanedText;
+        resultArea.style.display = 'block';
+    } catch (error) {
+        errorMessage.textContent = '识别过程中出现错误，请重试';
+        errorMessage.style.display = 'block';
+    } finally {
+        loading.style.display = 'none';
+        recognizeBtn.disabled = false;
+    }
+});
+</script> 
