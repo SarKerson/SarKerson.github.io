@@ -1,13 +1,109 @@
 ---
 layout: page
 title: "Tools"
+description: "实用工具集"
+header-style: text
 ---
 
-<h1>Useful Tools</h1>
+<!-- Custom CSS for tools page -->
+<style>
+.tools-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-<p>以下是一些有用的工具：</p>
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
 
-<ul>
-  <li><a href="/investment-calculator">定投计算器</a> - 计算定投收益的工具。</li>
-  <!-- 可以在这里添加更多工具的链接 -->
-</ul> 
+.tool-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+.tool-icon {
+    width: 60px;
+    height: 60px;
+    background: #f5f5f7;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.tool-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #1d1d1f;
+}
+
+.tool-description {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #86868b;
+    margin: 0;
+}
+
+.page-heading {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.page-heading h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #1d1d1f;
+    margin-bottom: 20px;
+}
+
+.page-heading p {
+    font-size: 20px;
+    color: #86868b;
+    max-width: 600px;
+    margin: 0 auto;
+}
+</style>
+
+<div class="tools-container">
+    <div class="page-heading">
+        <h1>实用工具集</h1>
+        <p>为您提供一系列精心设计的实用工具，提升效率，助您轻松决策</p>
+    </div>
+
+    <div class="tools-grid">
+        <a href="/pages/investment-calculator" class="tool-card">
+            <div class="tool-icon">💰</div>
+            <h2 class="tool-title">定投计算器</h2>
+            <p class="tool-description">轻松计算您的定期投资收益，帮助您做出明智的投资决策。支持自定义投资周期、金额和预期收益率。</p>
+        </a>
+
+        <!-- 示例：更多工具卡片模板 -->
+        <!--
+        <a href="/pages/other-tool" class="tool-card">
+            <div class="tool-icon">⚡</div>
+            <h2 class="tool-title">其他工具</h2>
+            <p class="tool-description">工具描述...</p>
+        </a>
+        -->
+    </div>
+</div> 
