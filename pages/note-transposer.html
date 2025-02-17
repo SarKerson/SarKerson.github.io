@@ -137,19 +137,22 @@ async function initializeTesseract() {
     try {
         worker = await Tesseract.createWorker({
             logger: progress => {
-                console.log(progress);
+                if (loading.style.display === 'block') {
+                    const progressText = document.querySelector('#loading p');
+                    progressText.textContent = `正在处理: ${progress.status} (${Math.round(progress.progress * 100)}%)`;
+                }
             }
         });
 
         // 配置 Tesseract
-        await worker.loadLanguage('eng');
-        await worker.initialize('eng');
-        // 设置识别参数，优化对数字和特殊符号的识别
+        await worker.loadLanguage('eng+chi_sim');
+        await worker.initialize('eng+chi_sim');
+        // 设置识别参数
         await worker.setParameters({
-            tessedit_char_whitelist: '0123456789.-#b',
+            tessedit_char_whitelist: '0123456789-.|#b ',
+            tessedit_pageseg_mode: '6',  // 假设文本是统一的文本块
         });
 
-        // 初始化完成后启用按钮
         recognizeBtn.disabled = false;
     } catch (error) {
         console.error('Tesseract 初始化失败:', error);
@@ -212,6 +215,36 @@ function handleFiles(files) {
     }
 }
 
+// 判断一行是否主要包含数字
+function isNumberLine(line) {
+    const numbers = line.replace(/[^0-9]/g, '').length;
+    const total = line.trim().length;
+    return numbers > 0 && (numbers / total) > 0.3; // 如果数字占比超过30%，认为是数字行
+}
+
+// 清理识别出的文本
+function cleanRecognizedText(text) {
+    // 按行分割
+    const lines = text.split('\n');
+    
+    // 过滤和处理每一行
+    const processedLines = lines
+        .map(line => line.trim())
+        .filter(line => line.length > 0)  // 移除空行
+        .filter(isNumberLine)  // 只保留主要包含数字的行
+        .map(line => {
+            return line
+                .replace(/[^\d\s.#b-|]/g, '') // 只保留数字、空格、点、#、b、-和|
+                .replace(/\|/g, ' ') // 将小节线替换为空格
+                .replace(/-+/g, ' ') // 将连接线替换为空格
+                .replace(/\s+/g, ' ') // 规范化空格
+                .trim();
+        })
+        .filter(line => line.length > 0);  // 再次移除可能变成空行的行
+
+    return processedLines.join('\n');
+}
+
 // 识别简谱
 recognizeBtn.addEventListener('click', async () => {
     if (!currentFile || !worker) return;
@@ -222,19 +255,22 @@ recognizeBtn.addEventListener('click', async () => {
         resultArea.style.display = 'none';
         errorMessage.style.display = 'none';
 
+        // 识别图片
         const result = await worker.recognize(currentFile);
+        console.log('Raw OCR result:', result.data.text); // 输出原始识别结果用于调试
         
-        // 处理识别结果，只保留数字和特殊符号
-        const cleanedText = result.data.text
-            .replace(/[^\d\s.#b-]/g, '') // 只保留数字、空格、点、#、b和减号
-            .replace(/\s+/g, ' ') // 规范化空格
-            .trim();
+        // 清理和处理识别结果
+        const cleanedText = cleanRecognizedText(result.data.text);
+        
+        if (cleanedText.trim().length === 0) {
+            throw new Error('未能识别出有效的简谱内容');
+        }
 
         recognizedText.textContent = cleanedText;
         resultArea.style.display = 'block';
     } catch (error) {
         console.error('识别错误:', error);
-        errorMessage.textContent = '识别过程中出现错误，请重试';
+        errorMessage.textContent = error.message || '识别过程中出现错误，请重试';
         errorMessage.style.display = 'block';
     } finally {
         loading.style.display = 'none';
