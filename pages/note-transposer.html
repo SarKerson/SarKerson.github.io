@@ -118,7 +118,7 @@ hide-in-nav: true
         </div>
         <div class="error-message" id="errorMessage"></div>
         <div class="loading" id="loading">
-            <p>正在识别简谱内容，请稍候...</p>
+            <p>正在初始化 OCR 引擎...</p>
         </div>
         <button class="button" id="recognizeBtn" disabled>开始识别</button>
     </div>
@@ -135,29 +135,32 @@ let worker = null;
 // 初始化 Tesseract
 async function initializeTesseract() {
     try {
-        worker = await Tesseract.createWorker({
-            logger: progress => {
-                if (loading.style.display === 'block') {
-                    const progressText = document.querySelector('#loading p');
-                    progressText.textContent = `正在处理: ${progress.status} (${Math.round(progress.progress * 100)}%)`;
-                }
-            }
-        });
-
-        // 配置 Tesseract
+        // 更新加载提示
+        const loadingText = document.querySelector('#loading p');
+        loadingText.textContent = '正在初始化 OCR 引擎...';
+        loading.style.display = 'block';
+        
+        // 创建 worker
+        worker = await Tesseract.createWorker();
+        
+        // 加载语言数据
         await worker.loadLanguage('eng+chi_sim');
         await worker.initialize('eng+chi_sim');
+        
         // 设置识别参数
         await worker.setParameters({
             tessedit_char_whitelist: '0123456789-.|#b ',
-            tessedit_pageseg_mode: '6',  // 假设文本是统一的文本块
+            tessedit_pageseg_mode: '6'
         });
 
+        // 初始化完成
+        loading.style.display = 'none';
         recognizeBtn.disabled = false;
     } catch (error) {
         console.error('Tesseract 初始化失败:', error);
         errorMessage.textContent = 'OCR 引擎初始化失败，请刷新页面重试';
         errorMessage.style.display = 'block';
+        loading.style.display = 'none';
     }
 }
 
@@ -247,10 +250,15 @@ function cleanRecognizedText(text) {
 
 // 识别简谱
 recognizeBtn.addEventListener('click', async () => {
-    if (!currentFile || !worker) return;
+    if (!currentFile || !worker) {
+        errorMessage.textContent = 'OCR 引擎未就绪或未选择文件';
+        errorMessage.style.display = 'block';
+        return;
+    }
 
     try {
         loading.style.display = 'block';
+        loading.querySelector('p').textContent = '正在识别简谱内容，请稍候...';
         recognizeBtn.disabled = true;
         resultArea.style.display = 'none';
         errorMessage.style.display = 'none';
@@ -279,7 +287,14 @@ recognizeBtn.addEventListener('click', async () => {
 });
 
 // 页面加载完成后初始化 Tesseract
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
     initializeTesseract();
+});
+
+// 页面关闭时终止 worker
+window.addEventListener('beforeunload', async () => {
+    if (worker) {
+        await worker.terminate();
+    }
 });
 </script> 
