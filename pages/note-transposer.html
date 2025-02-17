@@ -130,20 +130,33 @@ hide-in-nav: true
 </div>
 
 <script>
-// 初始化 Tesseract
-const worker = await Tesseract.createWorker({
-    logger: progress => {
-        console.log(progress);
-    }
-});
+let worker = null;
 
-// 配置 Tesseract
-await worker.loadLanguage('eng');
-await worker.initialize('eng');
-// 设置识别参数，优化对数字和特殊符号的识别
-await worker.setParameters({
-    tessedit_char_whitelist: '0123456789.-#b',
-});
+// 初始化 Tesseract
+async function initializeTesseract() {
+    try {
+        worker = await Tesseract.createWorker({
+            logger: progress => {
+                console.log(progress);
+            }
+        });
+
+        // 配置 Tesseract
+        await worker.loadLanguage('eng');
+        await worker.initialize('eng');
+        // 设置识别参数，优化对数字和特殊符号的识别
+        await worker.setParameters({
+            tessedit_char_whitelist: '0123456789.-#b',
+        });
+
+        // 初始化完成后启用按钮
+        recognizeBtn.disabled = false;
+    } catch (error) {
+        console.error('Tesseract 初始化失败:', error);
+        errorMessage.textContent = 'OCR 引擎初始化失败，请刷新页面重试';
+        errorMessage.style.display = 'block';
+    }
+}
 
 // 文件处理相关变量
 let currentFile = null;
@@ -201,7 +214,7 @@ function handleFiles(files) {
 
 // 识别简谱
 recognizeBtn.addEventListener('click', async () => {
-    if (!currentFile) return;
+    if (!currentFile || !worker) return;
 
     try {
         loading.style.display = 'block';
@@ -220,11 +233,17 @@ recognizeBtn.addEventListener('click', async () => {
         recognizedText.textContent = cleanedText;
         resultArea.style.display = 'block';
     } catch (error) {
+        console.error('识别错误:', error);
         errorMessage.textContent = '识别过程中出现错误，请重试';
         errorMessage.style.display = 'block';
     } finally {
         loading.style.display = 'none';
         recognizeBtn.disabled = false;
     }
+});
+
+// 页面加载完成后初始化 Tesseract
+document.addEventListener('DOMContentLoaded', () => {
+    initializeTesseract();
 });
 </script> 
