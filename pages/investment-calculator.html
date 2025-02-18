@@ -92,26 +92,70 @@ hide-in-nav: true
     color: #86868b;
     line-height: 1.5;
 }
+
+.mode-selector {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.mode-btn {
+    padding: 12px 24px;
+    margin: 0 10px;
+    border: 2px solid #0066cc;
+    border-radius: 8px;
+    background: white;
+    color: #0066cc;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mode-btn.active {
+    background: #0066cc;
+    color: white;
+}
+
+.form-section {
+    display: none;
+}
+
+.form-section.active {
+    display: block;
+}
+
+.date-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    font-size: 16px;
+}
 </style>
 
 <div class="calculator-container">
     <h1>定投计算器</h1>
-    <p class="description">这个计算器可以帮助您估算定期投资的潜在收益。输入您的投资参数，我们将为您计算出预期的投资结果。</p>
+    <p class="description">这个计算器提供两种模式：基金定投回测可以基于历史数据计算实际收益，收益率模拟则可以预估未来可能的收益。</p>
     
-    <form id="investment-form">
+    <div class="mode-selector">
+        <button type="button" class="mode-btn active" data-mode="simulation">收益率模拟</button>
+        <button type="button" class="mode-btn" data-mode="backtest">基金定投回测</button>
+    </div>
+
+    <!-- 收益率模拟表单 -->
+    <form id="simulation-form" class="form-section active">
         <div class="input-group">
-            <label for="amount">每期定投金额（元）</label>
-            <input type="number" id="amount" required min="1" step="1">
+            <label for="sim-amount">每期定投金额（元）</label>
+            <input type="number" id="sim-amount" required min="1" step="1">
         </div>
 
         <div class="input-group">
-            <label for="years">定投总时长（年）</label>
-            <input type="number" id="years" required min="1" step="0.5">
+            <label for="sim-years">定投总时长（年）</label>
+            <input type="number" id="sim-years" required min="1" step="0.5">
         </div>
 
         <div class="input-group">
-            <label for="period">定投周期</label>
-            <select id="period" required>
+            <label for="sim-period">定投周期</label>
+            <select id="sim-period" required>
                 <option value="weekly">每周</option>
                 <option value="biweekly">每两周</option>
                 <option value="monthly">每月</option>
@@ -119,11 +163,68 @@ hide-in-nav: true
         </div>
 
         <div class="input-group">
-            <label for="rate">年化收益率（%）</label>
-            <input type="number" id="rate" required min="0" step="0.1">
+            <label for="sim-rate">年化收益率（%）</label>
+            <input type="number" id="sim-rate" required min="0" step="0.1">
         </div>
 
-        <button type="button" class="calculate-btn" onclick="calculateInvestment()">计算投资收益</button>
+        <button type="button" class="calculate-btn" onclick="calculateSimulation()">计算投资收益</button>
+    </form>
+
+    <!-- 基金定投回测表单 -->
+    <form id="backtest-form" class="form-section">
+        <div class="input-group">
+            <label for="fund-code">基金代码</label>
+            <input type="text" id="fund-code" required pattern="[0-9]{6}" maxlength="6" placeholder="请输入6位基金代码">
+        </div>
+
+        <div class="input-group">
+            <label for="backtest-amount">每期定投金额（元）</label>
+            <input type="number" id="backtest-amount" required min="1" step="1">
+        </div>
+
+        <div class="input-group">
+            <label for="start-date">开始日期</label>
+            <input type="date" id="start-date" required class="date-input">
+        </div>
+
+        <div class="input-group">
+            <label for="end-date">结束日期</label>
+            <input type="date" id="end-date" required class="date-input">
+        </div>
+
+        <div class="input-group">
+            <label for="invest-day">定投日期设置</label>
+            <select id="invest-period" required>
+                <option value="monthly">每月固定日期</option>
+                <option value="weekly">每周固定星期</option>
+                <option value="biweekly">每两周固定星期</option>
+            </select>
+        </div>
+
+        <div class="input-group" id="monthly-day-group">
+            <label for="monthly-day">每月几号</label>
+            <select id="monthly-day" required>
+                <option value="1">1号</option>
+                <option value="5">5号</option>
+                <option value="10">10号</option>
+                <option value="15">15号</option>
+                <option value="20">20号</option>
+                <option value="25">25号</option>
+            </select>
+        </div>
+
+        <div class="input-group" id="weekly-day-group" style="display: none;">
+            <label for="weekly-day">星期几</label>
+            <select id="weekly-day" required>
+                <option value="1">周一</option>
+                <option value="2">周二</option>
+                <option value="3">周三</option>
+                <option value="4">周四</option>
+                <option value="5">周五</option>
+            </select>
+        </div>
+
+        <button type="button" class="calculate-btn" onclick="calculateBacktest()">计算投资收益</button>
     </form>
 
     <div id="results" class="results">
@@ -147,12 +248,62 @@ hide-in-nav: true
 </div>
 
 <script>
-function calculateInvestment() {
+// 添加基金数据获取函数
+async function getFundValue(fundCode, startDate, endDate) {
+    try {
+        const url = `https://api.fund.eastmoney.com/f10/lsjz?fundCode=${fundCode}&pageIndex=1&pageSize=1000&startDate=${startDate}&endDate=${endDate}`;
+        const response = await fetch(url, {
+            headers: {
+                'Referer': 'http://fundf10.eastmoney.com/',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+        });
+        const data = await response.json();
+        return data.Data.LSJZList;
+    } catch (error) {
+        console.error('获取基金数据失败:', error);
+        throw error;
+    }
+}
+
+// 模式切换
+document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // 更新按钮状态
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        // 更新表单显示
+        const mode = this.dataset.mode;
+        document.querySelectorAll('.form-section').forEach(form => form.classList.remove('active'));
+        document.getElementById(`${mode}-form`).classList.add('active');
+        
+        // 隐藏结果
+        document.getElementById('results').style.display = 'none';
+    });
+});
+
+// 定投周期切换
+document.getElementById('invest-period').addEventListener('change', function() {
+    const monthlyGroup = document.getElementById('monthly-day-group');
+    const weeklyGroup = document.getElementById('weekly-day-group');
+    
+    if (this.value === 'monthly') {
+        monthlyGroup.style.display = 'block';
+        weeklyGroup.style.display = 'none';
+    } else {
+        monthlyGroup.style.display = 'none';
+        weeklyGroup.style.display = 'block';
+    }
+});
+
+// 收益率模拟计算函数
+function calculateSimulation() {
     // 获取输入值
-    const amount = parseFloat(document.getElementById('amount').value);
-    const years = parseFloat(document.getElementById('years').value);
-    const period = document.getElementById('period').value;
-    const annualRate = parseFloat(document.getElementById('rate').value) / 100;
+    const amount = parseFloat(document.getElementById('sim-amount').value);
+    const years = parseFloat(document.getElementById('sim-years').value);
+    const period = document.getElementById('sim-period').value;
+    const annualRate = parseFloat(document.getElementById('sim-rate').value) / 100;
 
     // 计算每年投资次数
     let periodsPerYear;
@@ -179,21 +330,86 @@ function calculateInvestment() {
     // 计算本金
     const principal = amount * totalPeriods;
     
-    // 计算最终金额（使用复利公式）
+    // 计算最终金额
     let finalAmount = 0;
     for (let i = 0; i < totalPeriods; i++) {
         finalAmount = (finalAmount + amount) * (1 + ratePerPeriod);
     }
     
-    // 计算总收益
+    displayResults(principal, finalAmount);
+}
+
+// 基金定投回测计算函数
+async function calculateBacktest() {
+    try {
+        // 获取输入值
+        const fundCode = document.getElementById('fund-code').value;
+        const amount = parseFloat(document.getElementById('backtest-amount').value);
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        const investPeriod = document.getElementById('invest-period').value;
+        const monthlyDay = document.getElementById('monthly-day').value;
+        const weeklyDay = document.getElementById('weekly-day').value;
+
+        // 获取基金历史数据
+        const fundData = await getFundValue(fundCode, startDate, endDate);
+        
+        // 按日期排序（从早到晚）
+        fundData.sort((a, b) => new Date(a.FSRQ) - new Date(b.FSRQ));
+        
+        let totalInvestment = 0;
+        let totalUnits = 0;
+        
+        // 遍历每个交易日
+        for (const dayData of fundData) {
+            const date = new Date(dayData.FSRQ);
+            let shouldInvest = false;
+            
+            if (investPeriod === 'monthly') {
+                // 每月固定日期
+                shouldInvest = date.getDate() === parseInt(monthlyDay);
+            } else {
+                // 每周或每两周固定星期
+                const dayOfWeek = date.getDay() || 7; // 转换周日的0为7
+                shouldInvest = dayOfWeek === parseInt(weeklyDay);
+                
+                if (investPeriod === 'biweekly' && shouldInvest) {
+                    // 对于每两周投资，需要检查是否是符合两周规则的那一天
+                    const weekNumber = Math.ceil((date.getDate() - 1) / 7);
+                    shouldInvest = weekNumber % 2 === 1;
+                }
+            }
+            
+            if (shouldInvest) {
+                totalInvestment += amount;
+                totalUnits += amount / parseFloat(dayData.DWJZ);
+            }
+        }
+        
+        // 计算最终市值
+        const finalNetValue = parseFloat(fundData[fundData.length - 1].DWJZ);
+        const finalAmount = totalUnits * finalNetValue;
+        
+        // 显示结果
+        displayResults(totalInvestment, finalAmount);
+        
+    } catch (error) {
+        console.error('计算失败:', error);
+        alert('计算失败，请检查输入数据是否正确');
+    }
+}
+
+// 显示结果函数
+function displayResults(principal, finalAmount) {
     const totalProfit = finalAmount - principal;
-    
-    // 计算总收益率
     const totalReturn = (totalProfit / principal) * 100;
     
     // 计算年化收益率
+    const years = (new Date(document.getElementById('end-date').value) - 
+                  new Date(document.getElementById('start-date').value)) / 
+                  (1000 * 60 * 60 * 24 * 365);
     const annualizedReturn = (Math.pow(finalAmount / principal, 1 / years) - 1) * 100;
-
+    
     // 显示结果
     document.getElementById('principal').textContent = `¥${principal.toFixed(2)}`;
     document.getElementById('totalProfit').textContent = `¥${totalProfit.toFixed(2)}`;
@@ -203,4 +419,13 @@ function calculateInvestment() {
     // 显示结果区域
     document.getElementById('results').style.display = 'block';
 }
+
+// 设置日期输入框的默认值和最大值
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('end-date').max = today;
+document.getElementById('end-date').value = today;
+
+const oneYearAgo = new Date();
+oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+document.getElementById('start-date').value = oneYearAgo.toISOString().split('T')[0];
 </script> 
