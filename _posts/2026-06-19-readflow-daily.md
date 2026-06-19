@@ -21,7 +21,7 @@ tags:
 今天从 3 篇候选里留下 3 篇：2 篇进入今日重点，1 篇适合稍后细读。
 这份版本是给博客阅读的整理稿，只保留判断、摘要、配图和原文入口。
 
-![你的 Harness 工作流真的在进步吗？我们用一场考试撕掉了遮羞布](https://obsidian-1254275759.cos.ap-shanghai.myqcloud.com/blog/readflow/2026-06-19/20260619102452_1.jpeg)
+![你的 Harness 工作流真的在进步吗？我们用一场考试撕掉了遮羞布](https://obsidian-1254275759.cos.ap-shanghai.myqcloud.com/blog/readflow/2026-06-19/20260619102949_1.jpeg)
 
 ## 今日重点
 
