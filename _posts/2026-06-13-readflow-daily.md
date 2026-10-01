@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      ReadFlow Daily 2026-06-13
+title:      "AI 工程：Skill 自进化与上下文压缩（阅读摘记）"
 subtitle:   AI 阅读日报
 date:       2026-06-13
 author:     Eric.Y
@@ -16,7 +16,7 @@ tags:
     - Context Engineering
 ---
 
-# ReadFlow Daily 2026-06-13
+# AI 工程：Skill 自进化与上下文压缩（阅读摘记）
 
 今天从 30 篇候选里留下 24 篇：11 篇进入今日重点，13 篇适合稍后细读。
 这份版本是给博客阅读的整理稿，只保留判断、摘要、配图和原文入口。

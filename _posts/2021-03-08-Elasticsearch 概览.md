@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Elasticsearch 概览
+title:      "搜索系统：Elasticsearch 的架构与读写机制"
 subtitle:   Elasticsearch - An Overview
 date:       2021-03-08
 author:     Eric.Y
@@ -9,7 +9,7 @@ tags:
     - database
 ---
 
-# Elasticsearch - An Overview
+# 搜索系统：Elasticsearch 的架构与读写机制
 
 > TL;DR; 本文从分布式架构、数据读写、应用场景对 Elasticsearch 做一个概括性介绍，让读者了解 ES 是什么，能在哪些场景应用，为什么 ES 这么快。
 

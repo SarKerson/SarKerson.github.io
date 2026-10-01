@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      ReadFlow Daily 2026-06-18
+title:      "AI 模型：GLM-5.2 发布资料（阅读摘记）"
 subtitle:   AI 阅读日报
 date:       2026-06-18
 author:     Eric.Y
@@ -14,7 +14,7 @@ tags:
     - GLM
 ---
 
-# ReadFlow Daily 2026-06-18
+# AI 模型：GLM-5.2 发布资料（阅读摘记）
 
 今天从 1 篇候选里留下 1 篇：1 篇进入今日重点，0 篇适合稍后细读。
 这份版本是给博客阅读的整理稿，只保留判断、摘要、配图和原文入口。

@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      GraphQL A Backend Engineer's Perspective
+title:      "接口设计：后端工程师视角下的 GraphQL"
 subtitle:   GraphQL A Backend Engineer's Perspective
 date:       2022-04-07
 author:     Eric.Y
@@ -10,7 +10,7 @@ tags:
     - graphql
 ---
 
-# GraphQL：A Backend Engineer's Perspective
+# 接口设计：后端工程师视角下的 GraphQL
 
 > TLDR；本文是一个对 BFF 思想的学习与调研，也对业界经常用来实现 BFF 的 GraphQL 进行一些介绍。本文重点在于对业界方案进行的调研与小结，并在文末总结一种可以实践的 BFF 思路。
 

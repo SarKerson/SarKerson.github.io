@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Go 生态下的 Cache 评测
+title:      "缓存设计：Go 缓存的实现与评测"
 subtitle:   Caching in Go
 date:       2020-07-18
 author:     Eric.Y
@@ -9,7 +9,7 @@ tags:
     - golang
 ---
 
-# Caching in Go
+# 缓存设计：Go 缓存的实现与评测
 
 本文主要介绍 Go 生态下面比较有名的几个 Cache，剖析这些 Cache 实现的原理，并分析各自存在的不足之处。最后，介绍如何编写 Benchmark 来对比不同的 Cache，方便喜欢造轮子的同学进行测试。
 

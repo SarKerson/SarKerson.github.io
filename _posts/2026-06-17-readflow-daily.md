@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      ReadFlow Daily 2026-06-17
+title:      "AI 工程：面向 Agent 的后端架构（阅读摘记）"
 subtitle:   AI 阅读日报
 date:       2026-06-17
 author:     Eric.Y
@@ -16,7 +16,7 @@ tags:
     - 超级智能
 ---
 
-# ReadFlow Daily 2026-06-17
+# AI 工程：面向 Agent 的后端架构（阅读摘记）
 
 ![后端架构 AI Friendly 的标准与路径](https://obsidian-1254275759.cos.ap-shanghai.myqcloud.com/blog/readflow/2026-06-17/20260617043252_1.jpeg)
 

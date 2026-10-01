@@ -1,6 +1,7 @@
 ---
 layout: post
-title: ReadFlow Weekly 2026-W25
+title: "W25｜AI 工程中的授权、审查与上下文治理"
+subtitle: "2026-W25｜旧版阅读周报"
 date: 2026-06-21 20:30:00 +0800
 categories: [ReadFlow]
 ---

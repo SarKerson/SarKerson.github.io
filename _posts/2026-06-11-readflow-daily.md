@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      ReadFlow Daily 2026-06-11
+title:      "AI 工程：Harness、Skills 与记忆（阅读摘记）"
 subtitle:   AI 阅读日报
 date:       2026-06-11
 author:     Eric.Y
@@ -16,7 +16,7 @@ tags:
     - Memory
 ---
 
-# ReadFlow Daily 2026-06-11
+# AI 工程：Harness、Skills 与记忆（阅读摘记）
 
 今天从 30 篇候选里留下 21 篇：13 篇进入今日重点，8 篇适合稍后细读。
 这份版本是给博客阅读的整理稿，只保留判断、摘要、配图和原文入口。

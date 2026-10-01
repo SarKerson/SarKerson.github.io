@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      ReadFlow Daily 2026-06-19
+title:      "AI 工程：世界模型与 Harness 评测（阅读摘记）"
 subtitle:   AI 阅读日报
 date:       2026-06-19
 author:     Eric.Y
@@ -16,7 +16,7 @@ tags:
     - Causal AI
 ---
 
-# ReadFlow Daily 2026-06-19
+# AI 工程：世界模型与 Harness 评测（阅读摘记）
 
 今天从 3 篇候选里留下 3 篇：2 篇进入今日重点，1 篇适合稍后细读。
 这份版本是给博客阅读的整理稿，只保留判断、摘要、配图和原文入口。
