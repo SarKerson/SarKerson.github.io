@@ -8,14 +8,14 @@
 
 | 归档日期 | 合并定稿 | 合并的主要问题 |
 | --- | --- | --- |
-| 2026-06-01 | [Agent Skills：从召回到编排，如何用对技能](/2026/06/01/using-skills/) | 召回、选择、阶段化披露、上下游交接、多技能编排 |
-| 2026-06-27 | [Agent Skills：从执行经验到持续改进](/2026/06/27/learning-skills/) | 技能获取、候选优化、反馈学习、知识巩固与停止条件；吸收 W39 中的 RRSI 材料 |
-| 2026-07-22 | [Agent 评测：如何证明 Skill 真的有效](/2026/07/22/skill-evidence/) | 收益归因、配对评测、行为遵循、回归和成本 |
-| 2026-08-17 | [Agent Skills：技能库的冲突治理与版本发布](/2026/08/17/skill-library-governance/) | 重叠与冲突、合并验收、版本集合、实验基线、灰度与回滚 |
-| 2026-09-11 | [Agent 架构：Skill 的执行契约、纠偏与安全边界](/2026/09/11/skill-runtime/) | 执行契约、验证纠偏、权限与供应链；GUI 作为有边界的复用案例 |
-| 2026-10-07 | [个人开发：从需求到上线的工具选型](/2026/10/07/indie-development/) | 开发、协作、测试、部署、数据与 AI 产品运行成本 |
+| 2026-06-01 | [Agent Skills：从召回到编排，如何用对技能](https://sarkerson.github.io/2026/06/01/using-skills/) | 召回、选择、阶段化披露、上下游交接、多技能编排 |
+| 2026-06-27 | [Agent Skills：从执行经验到持续改进](https://sarkerson.github.io/2026/06/27/learning-skills/) | 技能获取、候选优化、反馈学习、知识巩固与停止条件；吸收 W39 中的 RRSI 材料 |
+| 2026-07-22 | [Agent 评测：如何证明 Skill 真的有效](https://sarkerson.github.io/2026/07/22/skill-evidence/) | 收益归因、配对评测、行为遵循、回归和成本 |
+| 2026-08-17 | [Agent Skills：技能库的冲突治理与版本发布](https://sarkerson.github.io/2026/08/17/skill-library-governance/) | 重叠与冲突、合并验收、版本集合、实验基线、灰度与回滚 |
+| 2026-09-11 | [Agent 架构：Skill 的执行契约、纠偏与安全边界](https://sarkerson.github.io/2026/09/11/skill-runtime/) | 执行契约、验证纠偏、权限与供应链；GUI 作为有边界的复用案例 |
+| 2026-10-07 | [个人开发：从需求到上线的工具选型](https://sarkerson.github.io/2026/10/07/indie-development/) | 开发、协作、测试、部署、数据与 AI 产品运行成本 |
 
-Skills 专题的阅读顺序与导航见 [目录](/skills/)。新稿含 12 张原创机制图，源文件见 [diagrams](diagrams/)，48 个外部参考链接已检查可访问性。可访问不等同于独立复现实验，论文结果、静态源码观察、教学案例与作者建议在正文中分别标明。
+Skills 专题的阅读顺序与导航见 [目录](https://sarkerson.github.io/skills/)。新稿含 12 张原创机制图，源文件见 [diagrams](diagrams/)，48 个外部参考链接已检查可访问性。可访问不等同于独立复现实验，论文结果、静态源码观察、教学案例与作者建议在正文中分别标明。
 
 ## 原计划如何收敛
 
