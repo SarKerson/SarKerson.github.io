@@ -2,7 +2,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="{{ site.description }}">
+	<meta name="description" content="{{ page.description | default: site.description | escape }}">
 	<meta name="keywords" content="{{ site.keyword }}">
 	<meta name="theme-color" content="{{ site.chrome-tab-theme-color }}">
 	<meta name="google-site-verification" content="FpVdnEtZlnO0S697TO1QiAGgdxDyvouCJXIUgNpcJLY" />
@@ -22,13 +22,16 @@
 	<link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
 	<!-- Bootstrap Core CSS -->
-	<link rel="stylesheet" href="{{ " /css/bootstrap.min.css" | prepend: site.baseurl }}">
+	<link rel="stylesheet" href="{{ "/css/bootstrap.min.css" | prepend: site.baseurl }}">
 
 	<!-- Custom CSS -->
-	<link rel="stylesheet" href="{{ " /css/hux-blog.min.css" | prepend: site.baseurl }}">
+	<link rel="stylesheet" href="{{ "/css/hux-blog.min.css" | prepend: site.baseurl }}">
 
 	<!-- Pygments Github CSS -->
-	<link rel="stylesheet" href="{{ " /css/syntax.css" | prepend: site.baseurl }}">
+	<link rel="stylesheet" href="{{ "/css/syntax.css" | prepend: site.baseurl }}">
+	{% if page.edited_article or page.skills_index %}
+	<link rel="stylesheet" href="{{ "/css/articles.css" | prepend: site.baseurl }}">
+	{% endif %}
 
 	<!-- Custom Fonts -->
 	<!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->

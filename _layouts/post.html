@@ -13,28 +13,16 @@ layout: default
         background-image: url('{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')
     }
     
-    {
-        % if page.header-mask %
-    }
+    {% if page.header-mask %}
     
     header.intro-header .header-mask {
         width: 100%;
         height: 100%;
         position: absolute;
-        background: rgba(0,
-        0,
-        0,
-        {
-            {
-                page.header-mask
-            }
-        }
-        );
+        background: rgba(0, 0, 0, {{ page.header-mask }});
     }
     
-    {
-        % endif %
-    }
+    {% endif %}
 </style>
 <header class="intro-header">
     <div class="header-mask"></div>
@@ -48,9 +36,9 @@ layout: default
                     </div>
                     <h1>{{ page.title }}</h1>
                     {% comment %} always create a h2 for keeping the margin , Hux {% endcomment %} {% comment %} if page.subtitle {% endcomment %}
-                    <h2 class="subheading">{{ page.subtitle }}</h2>
+                    <h2 class="subheading">{{ page.subtitle | default: page.description }}</h2>
                     {% comment %} endif {% endcomment %}
-                    <span class="meta">Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.date | date: "%B %-d, %Y" }}</span>
+                    <span class="meta">{% if page.published_at %}{{ page.author }} · 归档 {{ page.date | date: "%Y-%m-%d" }} · 发布 {{ page.published_at | date: "%Y-%m-%d" }}{% else %}Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.date | date: "%B %-d, %Y" }}{% endif %}</span>
                 </div>
             </div>
         </div>
@@ -66,7 +54,11 @@ layout: default
             <div class="
                 col-lg-8 col-lg-offset-2
                 col-md-10 col-md-offset-1
-                post-container">
+                post-container{% if page.edited_article %} edited-article{% endif %}">
+
+                {% if page.series == 'skills' %}
+                <aside class="series-note">Skills 专题 · 第 {{ page.series_order }} 篇 / 共 5 篇<br><a href="{{ '/skills/' | prepend: site.baseurl }}">查看阅读目录</a></aside>
+                {% endif %}
 
                 {{ content }}
 
@@ -131,7 +123,7 @@ layout: default
                     <hr class="hidden-sm hidden-xs">
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
-                        {% for tag in site.tags %} {% if tag[1].size > {{site.featured-condition-size}} %}
+                        {% for tag in site.tags %} {% if tag[1].size > site.featured-condition-size %}
                         <a href="/tags/#{{ tag[0] }}" title="{{ tag[0] }}" rel="{{ tag[1].size }}">
                                     {{ tag[0] }}
                                 </a> {% endif %} {% endfor %}

@@ -1,0 +1,17 @@
+.edited-article { color: #30332f; font-size: 17px; line-height: 1.9; }
+.edited-article h2 { margin-top: 2.5em; line-height: 1.45; }
+.edited-article h3 { margin-top: 1.8em; line-height: 1.5; }
+.edited-article p { margin: 1.3em 0; }
+.edited-article img[src*="/2026-skills/"] { display: block; width: auto; max-width: 100%; max-height: 720px; margin: 2em auto 1em; border-radius: 8px; }
+.edited-article p:has(> em:only-child) { color: #74776f; font-size: 14px; text-align: center; margin-top: .5em; }
+.edited-article table { display: block; width: 100%; overflow-x: auto; margin: 1.7em 0; border-collapse: collapse; font-size: 15px; line-height: 1.7; }
+.edited-article th, .edited-article td { padding: 12px 15px; border: 1px solid #dcded5; min-width: 130px; vertical-align: top; }
+.edited-article th { background: #e8ede6; }
+.edited-article tr:nth-child(even) { background: #faf9f5; }
+.edited-article pre { padding: 18px; line-height: 1.7; overflow-x: auto; }
+.edited-article a { overflow-wrap: anywhere; }
+.series-note { background: #f6f7f2; border-left: 3px solid #8f9f89; padding: 15px 20px; margin: 0 0 2em; font-size: 15px; line-height: 1.8; }
+.skills-index { line-height: 1.9; }
+.skills-index li { margin: 1.3em 0; }
+.skills-index .reading-note { color: #74776f; font-size: 15px; }
+@media (max-width: 600px) { .edited-article { font-size: 16px; } .edited-article th, .edited-article td { padding: 10px; min-width: 120px; } }

@@ -6,8 +6,8 @@
  * Register service worker.
  * ========================================================== */
 
-const PRECACHE = 'precache-v1';
-const RUNTIME = 'runtime';
+const PRECACHE = 'precache-20261007';
+const RUNTIME = 'runtime-20261007';
 const HOSTNAME_WHITELIST = [
   self.location.hostname,
   "huangxuan.me",
@@ -95,7 +95,12 @@ self.addEventListener('install', e => {
  */
 self.addEventListener('activate',  event => {
   console.log('service worker activated.')
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then(keys => Promise.all(keys
+      .filter(key => (key === 'runtime' || key.startsWith('precache-') || key.startsWith('runtime-')) && key !== PRECACHE && key !== RUNTIME)
+      .map(key => caches.delete(key))))
+      .then(() => self.clients.claim())
+  );
 });
 
 
@@ -106,6 +111,11 @@ self.addEventListener('activate',  event => {
  *  void respondWith(Promise<Response> r);
  */
 self.addEventListener('fetch', event => {
+  const requestUrl = new URL(event.request.url);
+  if (requestUrl.origin === self.location.origin && /^\/2026\/06\/\d{2}\/readflow-(daily|weekly)\/?$/.test(requestUrl.pathname)) {
+    event.respondWith(fetch(event.request, {cache: 'no-store'}));
+    return;
+  }
   // logs for debugging
   console.log(`fetch ${event.request.url}`)
   //console.log(` - type: ${event.request.type}; destination: ${event.request.destination}`)

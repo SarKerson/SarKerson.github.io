@@ -1,0 +1,18 @@
+---
+layout: page
+title: "Skills"
+description: "从一次调用，到可以验证、维护和持续改进的能力"
+permalink: /skills/
+skills_index: true
+---
+<div class="skills-index">
+<p>这组文章围绕五个问题展开：怎样用对技能，怎样从经验中学习，怎样证明收益，怎样治理技能库，以及执行时怎样控制风险。每篇都可以独立阅读。</p>
+<ol>
+{% assign articles = site.posts | where: "series", "skills" | sort: "series_order" %}
+{% for post in articles %}
+<li><a href="{{ post.url | prepend: site.baseurl }}"><strong>{{ post.title }}</strong></a><br>{{ post.description }}</li>
+{% endfor %}
+</ol>
+<p>延伸阅读：<a href="{{ '/2026/10/07/indie-development/' | prepend: site.baseurl }}">个人开发：从需求到上线的工具选型</a>。</p>
+<p class="reading-note">六篇文章于 2026-10-07 合并修订并发布，按六月至十月归档。研究事实、教学案例与工程建议分别标明；资料范围以每篇列出的版本为准。</p>
+</div>

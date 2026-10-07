@@ -6,7 +6,7 @@
 
 过去的文章主要围绕后端工程、存储、分布式系统和领域建模。接下来，我会把更多精力放在 C 端 AI Agent：Skills、上下文、记忆、编排，以及它们在真实产品里的验证与治理。也会留下开发工具、阅读和旅行中的观察。
 
-[博客](https://sarkerson.github.io/) · [文章源码](_posts/) · [发文计划](docs/publication-plan.md) · [GitHub](https://github.com/SarKerson)
+[博客](https://sarkerson.github.io/) · [Skills 专题](https://sarkerson.github.io/skills/) · [文章源码](_posts/) · [发布记录](docs/publication-plan.md) · [GitHub](https://github.com/SarKerson)
 
 ## 我会写什么
 
@@ -21,6 +21,8 @@
 
 ## 从这几篇开始
 
+- [Skills 专题：五篇文章理解技能系统](https://sarkerson.github.io/skills/)：从召回与编排，到持续改进、收益评测、版本治理和执行边界。
+- [个人开发：从需求到上线的工具选型](https://sarkerson.github.io/2026/10/07/indie-development/)：围绕真实交付选择开发、部署与数据工具。
 - [领域驱动设计：战术建模与代码组织](_posts/2024-02-03-DDD%20战术设计总结.md)：从领域模型到代码组织。
 - [分布式系统：从 Redlock 到共识算法](_posts/2021-10-13-从%20RedLock%20到共识算法.md)：沿着分布式锁的问题理解一致性。
 - [缓存设计：Caffeine 与 TinyLFU 的实现原理](_posts/2020-07-24-Tiny-LFU.md)：缓存淘汰策略背后的设计。
@@ -48,7 +50,8 @@
 layout: post
 title: "Agent Skills：有效性评测与收益归因"
 subtitle: "一句话说明问题"
-date: 2026-10-12 10:00:00 +0800
+date: 2026-06-01 09:00:00 +0900
+published_at: 2026-10-07 16:15:00 +0900
 author: Eric.Y
 catalog: true
 tags:
@@ -58,6 +61,8 @@ tags:
 ```
 
 配置好本地 Jekyll 环境后，可运行 `jekyll serve` 预览。仓库目前没有锁定的 Gemfile；本地依赖版本需要另行配置。
+
+合并整理的文章用 `date` 表示归档日期，`published_at` 记录实际发布；页面同时展示两者，RSS 使用实际发布日期。旧文章沿用原日期。合并稿的引用版本与修订日期保留在正文，归档排序不改变资料的时间边界。
 
 从 Notion 整理到博客时，先转换表格、折叠块和页面引用，再检查图片与参考链接。附件应使用可长期访问的地址；不要将临时签名图片链接直接写入文章。完成页面预览和内容审核后再发布。
 
