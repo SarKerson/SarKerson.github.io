@@ -7,6 +7,7 @@ published_at: "2026-10-07T16:13:50+09:00"
 author: "Eric.Y"
 catalog: true
 edited_article: true
+visual_updated_at: "2026-10-14"
 tags: ["Agent", "Skills"]
 series: "skills"
 series_order: 1
@@ -19,6 +20,11 @@ series_order: 1
 本文把 Skill 理解为可复用的过程知识包：它可以包含适用条件、操作步骤、脚本、参考材料和验证方法。Harness 是承载模型、工具、状态与执行循环的宿主。对 C 端 Agent，我更关心的是一次请求中，哪些知识在什么时候进入模型，以及这些知识怎样转化为可检查的动作。
 
 沿着这个问题，SkillRouter、Graph-of-Skills、AgentSkillOS 和 GraSP 分别提供选择、依赖补全、节点交接与局部修复的思路。下文以同一个表格到演示文稿的教学案例串联它们。案例与组合架构由本文构造；研究事实与工程建议分别说明，实验不声称独立复现。
+
+<figure class="research-figure" id="figure-1">
+<a class="figure-open" href="/img/posts/2026-skills-originals/using-skills-01.svg" target="_blank" rel="noopener" aria-label="放大查看：Agent Skills 的分层研究框架"><img src="/img/posts/2026-skills-originals/using-skills-01.svg" alt="Agent Skills 的分层研究框架" width="1536" height="1024" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 1 · Agent Skills 的分层研究框架</span>研究底稿原图：应用、智能体运行、技能与基础设施四层，以及方法之间的位置关系。</figcaption>
+</figure>
 
 ## 1. 先把“用到了 Skill”拆开
 
@@ -34,9 +40,6 @@ series_order: 1
 
 这些事件有先后关联，但不一定由五个独立服务实现。小系统可以在一个循环里完成，关键是每个事件的含义清楚。例如“请求读取成功”与“材料内容到达模型”应能关联到同一次调用，不能只对终端文本搜索一个技能名称。
 
-![图 1：机制与执行流程](/img/posts/2026-skills/using-skills-01.svg)
-
-*图 1：本文的执行事件图。反馈返回计划，不意味着每次失败都要重写技能正文。*
 
 对“保留公式”这样的条件，也要区分未知与失败。若系统没有保存文件差异，无法判断公式是否改变，就应记录证据不足。把未知直接当作成功，会让后续的技能学习建立在错误标签上。
 
@@ -54,6 +57,11 @@ SkillRouter 使用检索与重排两阶段，并将技能正文中的能力细�
 
 找到演示文稿技能，不代表找到了它所依赖的图表生成能力。Graph-of-Skills 将技能关系用于结构检索，让查询能够沿依赖扩展到单纯语义相似度可能遗漏的前置能力。[2](https://arxiv.org/abs/2604.05333v4)
 
+<figure class="research-figure" id="figure-2">
+<a class="figure-open" href="/img/posts/2026-skills-originals/using-skills-02.png" target="_blank" rel="noopener" aria-label="放大查看：Graph-of-Skills：沿关系补全前置能力"><img src="/img/posts/2026-skills-originals/using-skills-02.png" alt="Graph-of-Skills：沿关系补全前置能力" width="1379" height="654" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 2 · Graph-of-Skills：沿关系补全前置能力</span>论文原图；依赖检索补回语义相似度可能遗漏的技能，不能把共现直接视为必要依赖。 <a href="https://arxiv.org/abs/2604.05333v4" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
+
 这与“再多取几个 Top K”不同。增加 K 只是扩大邻近候选，依赖扩展试图回答：已经选中 B，为了让 B 的前置条件成立，还需要哪个 A？在表格案例中，这条边应该具体到“图表生成消费已验证的数据表，演示文稿消费图表与解释”，而非只有两个技能的名称相邻。
 
 关系图也可能放大错误。一个过期依赖会稳定召回错误版本；把常见共现当作必要前置，会给所有任务增加多余步骤。关系至少需要记录适用条件、来源与版本。某条边来自人工规则、文本推断还是执行验证，应当能被区分。
@@ -61,6 +69,11 @@ SkillRouter 使用检索与重排两阶段，并将技能正文中的能力细�
 ## 3. 有了执行图，还需要定义信息交接
 
 AgentSkillOS 将技能组织、选择与 DAG 执行结合起来。最值得看的一处实现，是规划器与节点执行器接收的材料不同：规划阶段可以看到选中技能的名称、描述和正文；执行阶段按节点构造任务，携带目标、产物路径、使用提示与输出要求。[3](https://arxiv.org/abs/2603.02176v1)[4](https://github.com/ynulihao/AgentSkillOS/tree/c3cfae10ea34a13973c461273ad9c5cc4aa907fe)
+
+<figure class="research-figure" id="figure-3">
+<a class="figure-open" href="/img/posts/2026-skills-originals/using-skills-03.png" target="_blank" rel="noopener" aria-label="放大查看：AgentSkillOS：组织、选择与执行"><img src="/img/posts/2026-skills-originals/using-skills-03.png" alt="AgentSkillOS：组织、选择与执行" width="997" height="535" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 3 · AgentSkillOS：组织、选择与执行</span>论文原图；区分技能库组织与任务执行两个阶段。 <a href="https://arxiv.org/abs/2603.02176v1" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 **规划器读过的信息，不会自动成为下游执行器的历史。** 在新的会话里，产物路径、使用方法和预期输出都需要显式传递。反过来，如果执行器继承了全部旧会话，它还可能同时看到过期文件、失败尝试与已经撤销的计划。
 
@@ -82,9 +95,11 @@ AgentSkillOS 将技能组织、选择与 DAG 执行结合起来。最值得看�
 
 路径本身不是上下文。只有实际读取之后，文件内容才进入模型可用材料。交接字段也不是越多越好：可以直接检查的机器状态留在运行状态里，模型需要解释和决策的部分再进入上下文。把完整审计日志复制给每个节点，既增加成本，也让过时信息重新参与判断。
 
-![图 2：机制与执行流程](/img/posts/2026-skills/using-skills-02.svg)
+<figure class="research-figure" id="figure-4">
+<a class="figure-open" href="/img/posts/2026-skills-originals/using-skills-04.svg" target="_blank" rel="noopener" aria-label="放大查看：AgentSkillOS：节点交接前后的上下文"><img src="/img/posts/2026-skills-originals/using-skills-04.svg" alt="AgentSkillOS：节点交接前后的上下文" width="2200" height="1590" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 4 · AgentSkillOS：节点交接前后的上下文</span>原稿的角色与来源审校图；以 PDF 到 PPTX 的原研究案例，补充正文表格案例的交接机制。 <a href="https://github.com/ynulihao/AgentSkillOS/tree/c3cfae10ea34a13973c461273ad9c5cc4aa907fe" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
-*图 2：本文建议的产物交接。箭头表达依赖，访问权限仍由宿主独立控制。*
 
 AgentSkillOS 的作者实验包含 30 个产物型任务，即使提供相同的理想技能集合，结构化编排也表现出优势。[3](https://arxiv.org/abs/2603.02176v1) 但其成对偏好与排序指标不能改写成任务准确率；整套系统的改善也不能全部归给“新建会话”。规划质量、交接方式、重试与材料组织共同变化，需要另外做消融。
 
@@ -95,6 +110,11 @@ AgentSkillOS 的作者实验包含 30 个产物型任务，即使提供相同的
 执行图适合表达已知依赖，但真实工具调用会产生新信息。清洗结果可能提示表中存在不可自动合并的重复记录；图表生成可能发现缺少时间字段。此时继续照原计划走，或直接重跑全部流程，都可能浪费成本。
 
 GraSP 将技能组合表达为可检查的图，并把失败映射到局部修复。[5](https://arxiv.org/abs/2604.17870v1) 对框架的启发是：先保留已经可靠完成的状态，定位哪个节点、哪条依赖或哪个条件失效，再决定补节点、换方法、修参数或停止。验证对象包括计划结构与执行结果，图在结构上合法并不保证任务能完成。
+
+<figure class="research-figure" id="figure-5">
+<a class="figure-open" href="/img/posts/2026-skills-originals/using-skills-05.svg" target="_blank" rel="noopener" aria-label="放大查看：GraSP：失败之后，修复器究竟看到什么"><img src="/img/posts/2026-skills-originals/using-skills-05.svg" alt="GraSP：失败之后，修复器究竟看到什么" width="2200" height="1590" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 5 · GraSP：失败之后，修复器究竟看到什么</span>原稿上下文对照；区分任务、失败反馈与修复模板，不将模板字段补写成未经核验的 API 角色。 <a href="https://arxiv.org/abs/2604.17870v1" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 以表格案例为例，若清洗已经正确完成，只是图表缺少单位，应修复图表或补充口径，没必要再次删除重复行。如果原因是上游误删数据，则必须使受影响的下游产物失效，再从可靠版本重算。这里需要的是数据依赖和失效传播，不只是让模型写一句“我将重新检查”。
 

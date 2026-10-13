@@ -7,6 +7,7 @@ published_at: "2026-10-07T16:13:50+09:00"
 author: "Eric.Y"
 catalog: true
 edited_article: true
+visual_updated_at: "2026-10-14"
 tags: ["Agent", "Skills"]
 series: "skills"
 series_order: 5
@@ -49,6 +50,11 @@ ContractSkill 将草稿技能转换为包含前置条件、步骤、后置条件
 
 论文的网页案例中，原技能已经找到相关候选，却停在探索阶段；修复补上后续动作与完成条件，而非重写全部搜索策略。这种局部定位很有价值。但确定性验证器只能检查已经表达并实现的条件，不能据此推出所有用户要求都获得形式化保证。
 
+<figure class="research-figure" id="figure-1">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-runtime-01.svg" target="_blank" rel="noopener" aria-label="放大查看：ContractSkill：契约如何定位未完成的步骤"><img src="/img/posts/2026-skills-originals/skill-runtime-01.svg" alt="ContractSkill：契约如何定位未完成的步骤" width="1800" height="850" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 1 · ContractSkill：契约如何定位未完成的步骤</span>原稿方法对照；保留前置条件、后置条件、失败证据与局部修补之间的关系。 <a href="https://arxiv.org/html/2603.20340v1" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
+
 ## 2. 检查契约本身是否真的执行
 
 结构化字段容易制造一种安全感：JSON 里有 `postconditions`，似乎就有了后置验证。实际上，规范化过程可能忽略未知字段，某些检查器没有挂接到执行器，或者检查只验证了页面文字，并没有验证真实产物。
@@ -70,11 +76,13 @@ ContractSkill 公开实现的研究底稿曾核对有限的条件键和动作集
 
 ToolSafe 研究在工具调用前引入逐步检查与反馈，让不合适的候选动作在产生副作用前得到处理。[3](https://arxiv.org/html/2601.10156v1) 对 Skill 宿主的启发是：检查器应看到用户目标、可信授权、已有状态与候选调用，检查发生在真正执行之前。
 
+<figure class="research-figure" id="figure-2">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-runtime-02.png" target="_blank" rel="noopener" aria-label="放大查看：ToolSafe：工具执行前的检查与反馈"><img src="/img/posts/2026-skills-originals/skill-runtime-02.png" alt="ToolSafe：工具执行前的检查与反馈" width="2015" height="554" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 2 · ToolSafe：工具执行前的检查与反馈</span>论文原图；检查位于副作用发生前，学习型检查器仍需要独立权限边界。 <a href="https://arxiv.org/html/2601.10156v1" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
+
 但学习型检查器仍然可能判断错误。需要由确定性的权限边界限制可访问账户、数据、工具动作和目标地址；模型检查帮助判断语境，不能自行扩张这些边界。技能文件自称“需要上传数据”，只是能力请求，不是用户授权。
 
-![图 1：机制与执行流程](/img/posts/2026-skills/skill-runtime-01.svg)
-
-*图 1：本文建议的执行路径。授权来自可信状态；网页、文件与技能内容不能改写它。*
 
 网页中的“上传到验证服务”属于外部内容，最多是任务材料，不能变成新增授权。宿主在候选工具调用处应能看到实际发送目的地与数据范围，再与当前权限比较。只在技能入库时扫描一次文本，无法覆盖运行时接触到的新内容。
 
@@ -88,9 +96,6 @@ ToolSafe 研究在工具调用前引入逐步检查与反馈，让不合适的�
 
 我会先把执行结果分成成功、明确失败和状态未知。未知需要查询外部事实；无法查询时，停止并说明缺少的证据。幂等键可以帮助识别重复请求，但只有外部系统真正支持对应语义时才有效，不能仅靠本地生成一个字符串获得保证。
 
-![图 2：机制与执行流程](/img/posts/2026-skills/skill-runtime-02.svg)
-
-*图 2：不确定副作用的恢复路径。查询结果本身也需要可核查，不能只再次询问执行模型。*
 
 对账单任务，下载失败后可以先检查文件完整性与远端状态；汇总失败可以在独立副本上重算；邮件发送属于本来没有授权的动作，应被阻断，而不是作为待修复步骤继续尝试。
 
@@ -99,6 +104,11 @@ ToolSafe 研究在工具调用前引入逐步检查与反馈，让不合适的�
 ## 5. 用执行证据修订 Skill
 
 确认失败属于规则缺陷后，才进入技能修订。SkillRevise 将验证要求、失败归属与必须保留的条件结合起来，并要求修改对应到可观察的执行动作。[5](https://arxiv.org/html/2606.01139v4) 这比泛化地追加“认真检查”更容易验收。
+
+<figure class="research-figure" id="figure-3">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-runtime-03.svg" target="_blank" rel="noopener" aria-label="放大查看：SkillRevise：证据、归属与可验证补丁"><img src="/img/posts/2026-skills-originals/skill-runtime-03.svg" alt="SkillRevise：证据、归属与可验证补丁" width="1800" height="850" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 3 · SkillRevise：证据、归属与可验证补丁</span>原稿方法对照；修订必须落到可观察动作，同时保留原有有效条件。 <a href="https://arxiv.org/html/2606.01139v4" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 例如邮件草稿缺少附件，候选修订可以要求保存后读取草稿对象，核对附件标识与预期文件；如果汇总用了旧账单，则应修改输入绑定与版本检查。两种失败都表现为“结果不对”，但修订对象不同。
 
@@ -111,6 +121,11 @@ ToolSafe 研究在工具调用前引入逐步检查与反馈，让不合适的�
 界面任务最能暴露契约的价值。昨天成功点击的位置，今天可能被弹窗覆盖；相同按钮文字可能出现在另一张账单上。可复用的对象应包含任务参数、对象定位依据、状态条件与恢复方式，而不只是坐标序列。
 
 SkillDroid 将成功轨迹编译成可复用资产，在匹配可靠时回放，遇到变化时再进入恢复或模型决策路径。[6](https://arxiv.org/html/2604.14872v1) 对本文案例，可以将“打开账单列表、选择月份、发起下载”的稳定结构复用，同时每次核对账户、月份、目标对象和下载结果。
+
+<figure class="research-figure" id="figure-4">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-runtime-04.svg" target="_blank" rel="noopener" aria-label="放大查看：SkillDroid：稳定回放与模型回退"><img src="/img/posts/2026-skills-originals/skill-runtime-04.svg" alt="SkillDroid：稳定回放与模型回退" width="1800" height="850" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 4 · SkillDroid：稳定回放与模型回退</span>原稿执行路径对照；回放、恢复与重新决策的成本和失败都要计入。 <a href="https://arxiv.org/html/2604.14872v1" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 这种路径可能减少模型调用，但不能只统计回放成功的部分。整体成本需要包含定位失败、回退、额外模型调用和最终未完成的任务。若每次界面变化都要求重新探索，前期编译成本是否值得，也需要按真实复用次数判断。
 

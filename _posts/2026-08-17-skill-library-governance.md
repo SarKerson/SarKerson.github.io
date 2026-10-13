@@ -7,6 +7,7 @@ published_at: "2026-10-07T16:13:50+09:00"
 author: "Eric.Y"
 catalog: true
 edited_article: true
+visual_updated_at: "2026-10-14"
 tags: ["Agent", "Skills"]
 series: "skills"
 series_order: 4
@@ -36,19 +37,26 @@ series_order: 4
 
 SkillNet 将技能、来源与关系组织到更明确的知识结构中，并讨论任务局部的知识组织。[1](https://arxiv.org/abs/2603.04448v2) 对治理系统而言，重要启发是让差异与依赖可检查。关系图并不会自动获得真实性：人工声明、模型推断和执行验证的边，应该记录不同的证据来源。
 
+<figure class="research-figure" id="figure-1">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-library-governance-01.svg" target="_blank" rel="noopener" aria-label="放大查看：SkillNet：让技能关系成为可检查的材料"><img src="/img/posts/2026-skills-originals/skill-library-governance-01.svg" alt="SkillNet：让技能关系成为可检查的材料" width="1800" height="880" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 1 · SkillNet：让技能关系成为可检查的材料</span>原稿方法对照；关系与任务局部知识组织服务于选择，不能自动证明合并正确。 <a href="https://arxiv.org/abs/2603.04448v2" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
+
 ## 2. 合并是一项需要验收的变更
 
 合并技能往往被当作文本编辑，但它实际改变了能力边界。两份技能分别通过测试，不代表合并后的版本仍然通过；更长的主文可能让触发条件变得模糊，也可能把两个互斥流程同时暴露给执行器。
 
 一个合理的合并候选，应先回答三个问题：共同主路径是什么，差异条件是否能明确表达，合并后还能否稳定选择正确分支。如果差异依赖复杂权限或完全不同的执行环境，保留两个技能与清晰关系，可能比强行合成一个更好。
 
-![图 1：机制与执行流程](/img/posts/2026-skills/skill-library-governance-01.svg)
-
-*图 1：本文建议的库维护流程。减少技能数量不是验收标准。*
 
 SkillOps 将库健康与维护操作显式化，讨论合并、修复、退役、验证器和适配器等对象。[2](https://arxiv.org/html/2605.13716v1) 但读它的成绩时必须看清任务：论文部分评测使用高层动作序列匹配，并不等于真实交互环境的端到端成功率。规则化注入的库缺陷，也不能覆盖生产中所有语义冲突。
 
 原研究底稿还核对过公开示例中的接口签名合并：签名由部分前置条件与产物字段构成，并不等于完整操作语义。[3](https://github.com/Hik289/SkillOps) 因此，将这个启发式直接用于自动删库有明显风险。两个输入输出相同的实现，仍可能具有不同的成本、许可、工具依赖与失败边界。
+
+<figure class="research-figure" id="figure-2">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-library-governance-02.svg" target="_blank" rel="noopener" aria-label="放大查看：SkillOps：接口签名不是完整操作语义"><img src="/img/posts/2026-skills-originals/skill-library-governance-02.svg" alt="SkillOps：接口签名不是完整操作语义" width="1800" height="880" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 2 · SkillOps：接口签名不是完整操作语义</span>原稿源码对照；相同签名只能提供维护候选，仍须验证差异条件与回归。 <a href="https://github.com/Hik289/SkillOps" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 我的建议是将相似度和接口签名用于发现候选，把真正的删除或合并交给带有回归验收的变更流程。误合并和误退役应单独计量；它们可能比暂时保留一份冗余材料更难恢复。
 
@@ -70,7 +78,17 @@ SkillOps 将库健康与维护操作显式化，讨论合并、修复、退役�
 
 Agent Skills 规范为包结构与元数据提供共同入口，但格式合法不等于行为兼容，也没有替产品完成灰度、实验与回滚。[4](https://agentskills.io/specification) SkillFlow 以版本化变化观察跨任务的技能演化，帮助我们把更新当作可追踪事件；它同样不能被直接称为完整的生产分发协议。[5](https://arxiv.org/html/2604.17308v1)
 
+<figure class="research-figure" id="figure-3">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-library-governance-03.svg" target="_blank" rel="noopener" aria-label="放大查看：SkillFlow：从执行经验到文件补丁"><img src="/img/posts/2026-skills-originals/skill-library-governance-03.svg" alt="SkillFlow：从执行经验到文件补丁" width="1800" height="850" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 3 · SkillFlow：从执行经验到文件补丁</span>原稿方法对照；应用补丁与发布合格是两个事件，不能省略独立验证。 <a href="https://arxiv.org/html/2604.17308v1" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
+
 在一个最小实现里，可以先不引入复杂编译层，但应保证源包不可变，以及请求开始时绑定一份一致快照。后续按需加载正文、脚本与依赖时，继续从该快照解析。这样一次任务不会在执行到一半时突然获得另一套规则。
+
+<figure class="research-figure" id="figure-4">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-library-governance-04.svg" target="_blank" rel="noopener" aria-label="放大查看：标准技能包与独立发布清单"><img src="/img/posts/2026-skills-originals/skill-library-governance-04.svg" alt="标准技能包与独立发布清单" width="1800" height="850" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 4 · 标准技能包与独立发布清单</span>原稿规范对照；统一文件入口之后，版本绑定、授权、实验和回滚仍由宿主实现。 <a href="https://agentskills.io/specification" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 快照不要求把全部清单塞进模型上下文。它是宿主的可信运行状态，用于加载、审计与复现。模型只需要当前决策所需的信息，不能让它自行修改快照标识来绕过版本约束。
 
@@ -80,9 +98,6 @@ Agent Skills 规范为包结构与元数据提供共同入口，但格式合法�
 
 此时最终差值包含多个变化，不能继续解释为 A@2 的作用。更稳妥的做法，是保存实验开始时的完整基线快照和实验快照。新全局版本出现后，旧实验按既定协议继续，或明确关闭并开启一个新实验；不能静默改变处理。
 
-![图 2：机制与执行流程](/img/posts/2026-skills/skill-library-governance-02.svg)
-
-*图 2：固定快照的实验路径。图中不包含静默追随全局最新版的更新。*
 
 若线上运行同时产生经验更新，还需要隔离学习状态。实验组生成的新技能不能流入基线组，否则对照条件也在学习实验改动。可以让两组使用冻结库，把学习放到独立训练流；也可以为两组隔离可写状态，但必须把这种学习协议纳入实验定义。
 

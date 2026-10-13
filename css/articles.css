@@ -1,17 +1,55 @@
-.edited-article { color: #30332f; font-size: 17px; line-height: 1.9; }
-.edited-article h2 { margin-top: 2.5em; line-height: 1.45; }
-.edited-article h3 { margin-top: 1.8em; line-height: 1.5; }
-.edited-article p { margin: 1.3em 0; }
-.edited-article img[src*="/2026-skills/"] { display: block; width: auto; max-width: 100%; max-height: 720px; margin: 2em auto 1em; border-radius: 8px; }
-.edited-article p:has(> em:only-child) { color: #74776f; font-size: 14px; text-align: center; margin-top: .5em; }
-.edited-article table { display: block; width: 100%; overflow-x: auto; margin: 1.7em 0; border-collapse: collapse; font-size: 15px; line-height: 1.7; }
-.edited-article th, .edited-article td { padding: 12px 15px; border: 1px solid #dcded5; min-width: 130px; vertical-align: top; }
-.edited-article th { background: #e8ede6; }
-.edited-article tr:nth-child(even) { background: #faf9f5; }
-.edited-article pre { padding: 18px; line-height: 1.7; overflow-x: auto; }
-.edited-article a { overflow-wrap: anywhere; }
-.series-note { background: #f6f7f2; border-left: 3px solid #8f9f89; padding: 15px 20px; margin: 0 0 2em; font-size: 15px; line-height: 1.8; }
-.skills-index { line-height: 1.9; }
-.skills-index li { margin: 1.3em 0; }
-.skills-index .reading-note { color: #74776f; font-size: 15px; }
-@media (max-width: 600px) { .edited-article { font-size: 16px; } .edited-article th, .edited-article td { padding: 10px; min-width: 120px; } }
+/* Scoped editorial layout for the six research articles. */
+.research-page{background:#fcfbf8;color:#292c29}
+.research-page .navbar-custom{border-bottom:1px solid #e7e3dc;background:#fcfbf8}
+.research-page .navbar-custom .navbar-brand,.research-page .navbar-custom .nav li a{color:#41483f}
+.research-page .navbar-custom .navbar-brand:hover,.research-page .navbar-custom .nav li a:hover{color:#84644c}
+.research-page .intro-header{background:#f1eee7!important;border-bottom:1px solid #e3dfd5;margin-bottom:40px}
+.research-page .intro-header .header-mask{display:none}
+.research-page .intro-header .post-heading{padding:130px 0 52px;color:#2c352e}
+.research-page .intro-header .post-heading h1{font-size:43px;line-height:1.4;letter-spacing:-.025em;font-weight:700}
+.research-page .intro-header .post-heading .subheading{font-size:19px;line-height:1.7;font-weight:400;color:#65695f;margin:18px 0 24px}
+.research-page .intro-header .post-heading .meta{font-family:inherit;font-size:12px;line-height:1.9;font-style:normal;color:#74776d}
+.research-page .intro-header .tags{margin-bottom:18px}
+.research-page .intro-header .tags .tag{color:#686b5f;border:1px solid #cccfc1;font-size:11px;letter-spacing:.05em;border-radius:4px}
+.research-page .intro-header .tags .tag:hover{background:#e3e7dc}
+.edited-article{color:#30362f;font-size:17px;line-height:1.95;letter-spacing:.015em}
+.edited-article>p,.edited-article>ul,.edited-article>ol{margin:1.25em 0}
+.edited-article h2{color:#283b30;font-size:27px;font-weight:650;line-height:1.5;margin:2.8em 0 1em;padding-top:1.1em;border-top:1px solid #dddcd2;scroll-margin-top:80px}
+.edited-article h3{color:#364a3b;font-size:21px;line-height:1.6;margin:1.9em 0 .8em}
+.edited-article strong{color:#253c2d;font-weight:650}
+.edited-article a{color:#4c725c;text-decoration:underline;text-decoration-color:#b5c7b7;text-underline-offset:3px;overflow-wrap:anywhere}
+.edited-article a:hover{color:#8b654a}
+.edited-article .series-note{border:1px solid #dfe3d8;border-left:3px solid #78927a;background:#f0f3ec;padding:14px 20px;margin:0 0 30px;font-size:13px;line-height:1.8;border-radius:0 6px 6px 0}
+.research-figure{margin:34px 0 38px}
+.research-figure .figure-open{display:block;position:relative;padding:10px;background:#fff;border:1px solid #e1e1d8;border-radius:7px;text-decoration:none;cursor:zoom-in}
+.research-figure .figure-open::after{content:'放大查看 ↗';position:absolute;right:14px;bottom:13px;background:#fcfbf2ed;border:1px solid #dce0d2;border-radius:4px;padding:3px 8px;color:#596954;font-size:11px;line-height:1.6}
+.edited-article .research-figure img{display:block;width:100%;height:auto;max-width:100%;max-height:none;margin:0;border-radius:2px}
+.research-figure figcaption{max-width:760px;margin:12px auto 0;font-size:13px;line-height:1.8;color:#70776b;text-align:left;letter-spacing:0}
+.figure-label{display:block;font-weight:650;color:#4e5b4b;margin-bottom:3px}
+.edited-article .table-responsive{border:1px solid #dde2d6;border-radius:5px;margin:26px 0;background:#fff}
+.edited-article table{display:table;width:100%;margin:0;border-collapse:collapse;font-size:14px;line-height:1.8}
+.edited-article th,.edited-article td{padding:13px 15px!important;border:0!important;border-bottom:1px solid #e8ebe3!important;vertical-align:top;min-width:110px;white-space:normal!important}
+.edited-article th{background:#eaf0e5;color:#334733;font-weight:650}
+.edited-article tr:nth-child(even) td{background:#f8f9f5}
+.edited-article pre{background:#f1f3ee;border:1px solid #dfe3d9;border-radius:5px;padding:20px;line-height:1.7;font-size:13px;overflow-x:auto}
+.edited-article :not(pre)>code{background:#eef1e9;color:#415c41;padding:2px 5px}
+.research-page .side-catalog{font-size:12px;color:#75816f}
+.research-page .side-catalog a{color:#687463}
+.skills-index{line-height:1.9}.skills-index li{margin:1.3em 0}.skills-index .reading-note{color:#74776f;font-size:15px}
+.figure-is-open{overflow:hidden}
+.figure-dialog{box-sizing:border-box;width:calc(100vw - 40px);max-width:1760px;height:calc(100dvh - 40px);max-height:none;padding:0;border:0;border-radius:10px;background:#f8f8f2;color:#344132;overflow:hidden}
+.figure-dialog::backdrop{background:#152019dc}
+.figure-toolbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 22px;border-bottom:1px solid #dce0d3;font-size:14px;background:#f8f8f2}
+.figure-dialog-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.figure-actions{display:flex;flex-shrink:0;gap:10px;align-items:center}
+.figure-actions button,.figure-actions a{padding:7px 12px;border:1px solid #cdd5c5;background:#fff;border-radius:5px;color:#445b3e;font:inherit;text-decoration:none;cursor:pointer}
+.figure-viewport{height:calc(100% - 69px);padding:24px;overflow:auto;display:flex;align-items:flex-start;justify-content:center}
+.figure-viewport img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;margin:auto;flex-shrink:0}
+.figure-viewport.at-original-size{display:block}.figure-viewport.at-original-size img{width:auto;max-width:none;max-height:none;margin:0}
+@media(min-width:1200px){.research-page .post-container{width:780px;margin-left:120px}.research-page .intro-header .post-heading{max-width:780px}.research-page .research-figure{margin-left:-45px;margin-right:-45px}.research-page .catalog-container{width:165px;margin-left:50px;padding-left:20px}}
+@media(max-width:767px){
+ .research-page .intro-header{margin-bottom:26px}.research-page .intro-header .post-heading{padding:94px 4px 34px}.research-page .intro-header .post-heading h1{font-size:29px;line-height:1.5;letter-spacing:-.02em}.research-page .intro-header .post-heading .subheading{font-size:16px;margin:14px 0 18px}.research-page .intro-header .post-heading .meta{font-size:11px}
+ .edited-article{font-size:16px;line-height:1.9}.edited-article h2{font-size:23px;margin-top:2.2em}.edited-article h3{font-size:19px}.research-figure{margin:27px -4px 30px}.research-figure .figure-open{padding:5px}.research-figure .figure-open::after{right:9px;bottom:9px;font-size:10px}.research-figure figcaption{font-size:12px;padding:0 4px}
+ .edited-article table{font-size:13px;min-width:560px}.edited-article th,.edited-article td{padding:11px!important;min-width:105px}.edited-article pre{padding:15px;font-size:12px}
+ .figure-dialog{width:100vw;height:100dvh;margin:0;border-radius:0}.figure-toolbar{align-items:flex-start;flex-direction:column;gap:10px;padding:14px}.figure-dialog-title{width:100%;font-size:13px}.figure-actions{width:100%;justify-content:space-between;font-size:12px}.figure-viewport{height:calc(100% - 102px);padding:10px}
+}

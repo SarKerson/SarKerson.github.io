@@ -38,7 +38,7 @@ layout: default
                     {% comment %} always create a h2 for keeping the margin , Hux {% endcomment %} {% comment %} if page.subtitle {% endcomment %}
                     <h2 class="subheading">{{ page.subtitle | default: page.description }}</h2>
                     {% comment %} endif {% endcomment %}
-                    <span class="meta">{% if page.published_at %}{{ page.author }} · 归档 {{ page.date | date: "%Y-%m-%d" }} · 发布 {{ page.published_at | date: "%Y-%m-%d" }}{% else %}Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.date | date: "%B %-d, %Y" }}{% endif %}</span>
+                    <span class="meta">{% if page.published_at %}{{ page.author }} · 归档 {{ page.date | date: "%Y-%m-%d" }} · 发布 {{ page.published_at | date: "%Y-%m-%d" }}{% if page.visual_updated_at %} · 图文修订 {{ page.visual_updated_at }}{% endif %}{% else %}Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif %} on {{ page.date | date: "%B %-d, %Y" }}{% endif %}</span>
                 </div>
             </div>
         </div>
@@ -210,3 +210,6 @@ layout: default
     }
 </style>
 {% endif %}
+
+
+{% if page.edited_article %}<script src="{{ site.baseurl }}/js/article-figures.js?v=20261014" defer></script>{% endif %}

@@ -7,6 +7,7 @@ published_at: "2026-10-07T16:13:50+09:00"
 author: "Eric.Y"
 catalog: true
 edited_article: true
+visual_updated_at: "2026-10-14"
 tags: ["Agent", "Skills"]
 series: "skills"
 series_order: 2
@@ -32,13 +33,15 @@ series_order: 2
 
 对于工具升级，应先修适配器或版本约束；对于参数映射错误，可以修改步骤或示例；对于用户要求不清楚，应改善澄清流程。允许优化器输出“暂不修改 Skill”，有助于避免把整个系统的责任都推给文本。
 
-![图 1：机制与执行流程](/img/posts/2026-skills/learning-skills-01.svg)
-
-*图 1：本文建议的经验写回流程。诊断可以改变修复对象，生成候选不自动获得发布权。*
 
 ## 2. 从轨迹提炼技能：先冻结参照
 
 多次执行可能同时揭示相同问题。若每发现一条经验就立即修改技能，后续轨迹面对的参照已经变化，很难判断哪些建议互相兼容。Trace2Skill 的一个关键做法，是围绕固定技能快照分析局部执行经验，再分层合并成候选补丁。[1](https://arxiv.org/abs/2603.25158v5)
+
+<figure class="research-figure" id="figure-1">
+<a class="figure-open" href="/img/posts/2026-skills-originals/learning-skills-01.png" target="_blank" rel="noopener" aria-label="放大查看：Trace2Skill：固定快照、局部分析与合并"><img src="/img/posts/2026-skills-originals/learning-skills-01.png" alt="Trace2Skill：固定快照、局部分析与合并" width="2916" height="1052" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 1 · Trace2Skill：固定快照、局部分析与合并</span>论文原图；恢复原稿的完整方法结构，候选合并后仍需独立验收。 <a href="https://arxiv.org/abs/2603.25158v5" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 成功轨迹告诉系统哪些步骤值得保留，失败轨迹帮助定位缺失或错误。局部分析器不必一次阅读全部日志；合并阶段再处理重复建议与冲突。这个结构将“分析大量经验”与“维护一份一致产物”分开，但合并出的文本仍然需要独立验收。
 
@@ -63,7 +66,17 @@ SkillOpt 与 SkillGrad 都利用执行反馈改进外部技能，但关注的位
 
 SkillOpt 在固定目标模型与执行框架的条件下，从成功、失败轨迹提议修改，对补丁进行整理并约束编辑规模，再用选择数据决定是否接受。被拒绝的尝试也可以成为后续提议的参考。它的价值不在“多反思一遍”，而在于修改理由与接受理由不是同一份证据。
 
+<figure class="research-figure" id="figure-2">
+<a class="figure-open" href="/img/posts/2026-skills-originals/learning-skills-02.svg" target="_blank" rel="noopener" aria-label="放大查看：SkillOpt：从自由改写到受控更新"><img src="/img/posts/2026-skills-originals/learning-skills-02.svg" alt="SkillOpt：从自由改写到受控更新" width="1800" height="900" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 2 · SkillOpt：从自由改写到受控更新</span>原稿方法对照；明确优化输入、编辑范围、独立选择与拒绝记录。 <a href="https://arxiv.org/html/2605.23904v2" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
+
 SkillGrad 关注另一种常见失败：规则并非缺失，而是放错了位置。主文塞满长尾例外，会增加每次阅读的负担；重要前提只写在附件末尾，又可能根本没有被读到。将长期有效的主路径、条件性补充和脚本资源分层，需要同时考虑触发、披露和实际执行。
+
+<figure class="research-figure" id="figure-3">
+<a class="figure-open" href="/img/posts/2026-skills-originals/learning-skills-03.svg" target="_blank" rel="noopener" aria-label="放大查看：SkillGrad：规则写到哪个披露层"><img src="/img/posts/2026-skills-originals/learning-skills-03.svg" alt="SkillGrad：规则写到哪个披露层" width="1800" height="900" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 3 · SkillGrad：规则写到哪个披露层</span>原稿方法对照；图中工作簿案例说明根指令、补充材料与诊断记忆的分工。 <a href="https://arxiv.org/abs/2605.27760v1" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 以下比较的是同一候选更新。所有字段为教学表达，不是上述项目的共同接口。
 
@@ -85,9 +98,6 @@ SkillGrad 关注另一种常见失败：规则并非缺失，而是放错了位�
 
 若相同参数通过兼容层能够正确执行，正文重写可能不是首要动作。若接口调用成功但参数语义始终错误，则可以提出技能候选：增加字段分类步骤、调整示例，或在生成后重新读取透视表对象检查布局。
 
-![图 2：机制与执行流程](/img/posts/2026-skills/learning-skills-02.svg)
-
-*图 2：教学诊断流程。分支由测试证据决定，模型提出的解释只是假设。*
 
 假设候选 A 增加正确的字段说明，候选 B 增加文件保存后的对象检查。它们可以分别测试，也可以测试组合；组合结果不能由两个单独分数相加得到。额外检查可能修复错误，也可能因为工具不支持而引入新失败。
 
@@ -98,6 +108,11 @@ SkillGrad 关注另一种常见失败：规则并非缺失，而是放错了位�
 ## 5. 从单次优化走向持续学习
 
 单次任务修好之后，下一个问题是怎样让未来任务受益。Memento-Skills 把技能作为可写的外部程序知识，采用读取、执行、写回的循环；更新的不只是对话摘要，还可以包括技能文件与资源。[5](https://arxiv.org/abs/2603.18743v1)
+
+<figure class="research-figure" id="figure-4">
+<a class="figure-open" href="/img/posts/2026-skills-originals/learning-skills-04.svg" target="_blank" rel="noopener" aria-label="放大查看：Memento-Skills：读取、执行与写回"><img src="/img/posts/2026-skills-originals/learning-skills-04.svg" alt="Memento-Skills：读取、执行与写回" width="1800" height="880" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 4 · Memento-Skills：读取、执行与写回</span>原稿方法对照；可写技能资产与只读检索库的差异，不等于每次写回都值得发布。 <a href="https://arxiv.org/abs/2603.18743v1" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 这种做法能让经验持续影响后续任务，也带来新的风险：错误规则会被重复读取，相似技能互相挤占检索位置，某个高频任务的优化可能伤害低频需求。技能库增长只是状态变化，不能作为学习成功的指标。
 

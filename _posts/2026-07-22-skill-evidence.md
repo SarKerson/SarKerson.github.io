@@ -7,6 +7,7 @@ published_at: "2026-10-07T16:13:50+09:00"
 author: "Eric.Y"
 catalog: true
 edited_article: true
+visual_updated_at: "2026-10-14"
 tags: ["Agent", "Skills"]
 series: "skills"
 series_order: 3
@@ -26,15 +27,17 @@ series_order: 3
 
 这里的预算也要具体：最大步数相同，并不保证模型调用数和 token 相同；工具调用不算环境步数，也不表示没有成本。先固定允许使用的资源，再记录实际消耗，才能区分同预算下质量提高和增加计算后的质量提高。
 
-![图 1：机制与执行流程](/img/posts/2026-skills/skill-evidence-01.svg)
-
-*图 1：配对评测的基本结构。每个条件从干净环境开始，不能继承另一条件生成的产物或记忆。*
 
 实验记录至少包含四个快照：任务与验收器、模型与执行框架、技能包与资源、索引与选择策略。若技能不变但索引变了，或者工具在两轮之间升级，就需要明确标注。一个技能版本号不足以描述整个实验条件。
 
 ## 2. 三类基准回答三个不同问题
 
 SkillsBench v4 将 87 个任务、8 个领域与确定性验证器配对，在 18 种模型—Harness 配置中比较有无整理好的技能。作者报告平均通过率从 33.9% 提高到 50.5%，增加 16.6 个百分点。[1](https://arxiv.org/html/2602.12670v4) 这说明技能在该基准上具有总体价值，也提醒我们：结果依赖具体任务、技能质量与宿主，不能当作任何产品的默认增益。
+
+<figure class="research-figure" id="figure-1">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-evidence-01.png" target="_blank" rel="noopener" aria-label="放大查看：SkillsBench：任务、技能与验证器"><img src="/img/posts/2026-skills-originals/skill-evidence-01.png" alt="SkillsBench：任务、技能与验证器" width="1062" height="530" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 1 · SkillsBench：任务、技能与验证器</span>论文原图；配对条件与确定性验收共同构成评测，而不是只看完成声明。 <a href="https://arxiv.org/html/2602.12670v4" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 确定性验证器的意义是同一产物可以按固定规则判定，它并不保证规则覆盖了所有用户需求。表格数字算对了，但用户要求的透视表对象没有创建，仍然可能不合格。评测设计必须将需求落到最终产物，而不是只检查 Agent 的完成声明。
 
@@ -43,6 +46,11 @@ SWE-Skills-Bench 则研究软件工程需求验收。其 Claude Code 与 Haiku 4
 “净通过率不变”也不等于没有任何影响。某些任务可能被修复，同时另一些任务发生回归；只有逐题配对结果能分清这些情况。基线已经接近天花板时，技能的主要价值还可能体现为降低成本，或提高某个关键子群体的可靠性。
 
 Skill-Usage 进一步移除“有人已经替 Agent 挑好技能”的理想前提。论文从整理好的技能出发，逐步引入自主选择、干扰项与全库检索，观察能力收益如何在现实选择链中损失。[3](https://arxiv.org/html/2604.04323v1) 这类实验帮助区分：技能内容不够好，还是系统无法稳定地找到并使用它。
+
+<figure class="research-figure" id="figure-2">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-evidence-02.svg" target="_blank" rel="noopener" aria-label="放大查看：Skill-Usage：强制加载与全库检索的区别"><img src="/img/posts/2026-skills-originals/skill-evidence-02.svg" alt="Skill-Usage：强制加载与全库检索的区别" width="1800" height="1020" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 2 · Skill-Usage：强制加载与全库检索的区别</span>原稿实验条件对照；保持任务与验收口径，分别观察材料可用性和实际读取。 <a href="https://arxiv.org/html/2604.04323v1" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 | 评测问题 | 代表工作 | 能支持的判断 | 仍需额外验证 |
 | --- | --- | --- | --- |
@@ -56,6 +64,11 @@ Skill-Usage 进一步移除“有人已经替 Agent 挑好技能”的理想前�
 ## 3. 保留一个负例，比多报一个总分更有用
 
 SWE-Skills-Bench 展示了一个 Linkerd 配置案例：任务需要特定版本下的 gRPC 与 mTLS 配置，近似技能模板却引入了旧版本、其他协议和不适用字段。[2](https://arxiv.org/html/2603.15401v1) 它说明技能可能把模型已有的正确知识带偏，而不仅是“没有提供帮助”。
+
+<figure class="research-figure" id="figure-3">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-evidence-03.svg" target="_blank" rel="noopener" aria-label="放大查看：SWE-Skills-Bench：近似模板造成的负迁移"><img src="/img/posts/2026-skills-originals/skill-evidence-03.svg" alt="SWE-Skills-Bench：近似模板造成的负迁移" width="1800" height="1020" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 3 · SWE-Skills-Bench：近似模板造成的负迁移</span>原稿依据论文 Figure 5 整理的案例；保留版本、协议与配置字段的具体差异。 <a href="https://arxiv.org/html/2603.15401v1" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
 
 这类问题很适合继续做有边界的对照：完整模板、只保留任务匹配模板、显式标注版本与协议前置条件。模型、任务和预算保持一致，观察改善来自删掉干扰还是补足缺失知识。这个三条件实验是本文建议，不是原论文已经报告的结果。
 
@@ -77,11 +90,13 @@ SWE-Skills-Bench 展示了一个 Linkerd 配置案例：任务需要特定版本
 
 Skill Coverage 将技能说明中的行为要求转成可检查约束，再分析轨迹是否覆盖、是否满足。[4](https://arxiv.org/abs/2606.20659v2) 这个思路能帮助我们找到“有规则，却没有被测试”的区域。但约束抽取和轨迹判断都可能遗漏，因此覆盖率应该作为诊断指标，不能替代任务验收。
 
+<figure class="research-figure" id="figure-4">
+<a class="figure-open" href="/img/posts/2026-skills-originals/skill-evidence-04.svg" target="_blank" rel="noopener" aria-label="放大查看：Skill Coverage：从完成自报到行为证据"><img src="/img/posts/2026-skills-originals/skill-evidence-04.svg" alt="Skill Coverage：从完成自报到行为证据" width="1800" height="880" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 4 · Skill Coverage：从完成自报到行为证据</span>原稿对照图；覆盖与满足是两个判断，文件差异等可观察证据不能由自报替代。 <a href="https://arxiv.org/abs/2606.20659v2" target="_blank" rel="noopener">来源</a></figcaption>
+</figure>
+
 同样，Skill-Usage 的公开读取检测实现提醒我们，工具名、路径匹配和文本解析只是读取信号的近似。[5](https://github.com/UCSB-NLP-Chang/Skill-Usage) 如果日志无法关联调用与结果，应保留未知，而不是强行归为已读取或未读取。否则，下一轮优化可能在修复一个由监控误差制造的问题。
 
-![图 2：机制与执行流程](/img/posts/2026-skills/skill-evidence-02.svg)
-
-*图 2：本文建议的诊断路径。它用于安排检查顺序，不能单凭一次轨迹证明因果。*
 
 ## 5. 同时报告修复、回归和成本
 

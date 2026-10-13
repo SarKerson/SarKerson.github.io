@@ -7,6 +7,7 @@ published_at: "2026-10-07T16:13:50+09:00"
 author: "Eric.Y"
 catalog: true
 edited_article: true
+visual_updated_at: "2026-10-14"
 tags: ["个人开发", "工具选型"]
 ---
 
@@ -24,9 +25,11 @@ tags: ["个人开发", "工具选型"]
 
 界面尚不清楚时，可以从 v0 或 Lovable 中选一个尝试原型。它们能帮助把描述变成可修改的应用结构，Lovable 也提供 GitHub 同步路径。[1](https://v0.app/docs)[2](https://docs.lovable.dev/integrations/github) 但生成出来的页面仍要经过登录、权限和错误状态验收。原型越快，越应该尽早把真实数据与失败条件放进去检查。
 
-![图 1：机制与执行流程](/img/posts/2026-skills/indie-development-01.svg)
 
-*图 1：个人开发的最小交付循环。每个环节可以先用已有工具完成。*
+<figure class="research-figure" id="figure-1">
+<a class="figure-open" href="/img/posts/2026-skills-originals/indie-development-01.svg" target="_blank" rel="noopener" aria-label="放大查看：一人开发的工具地图"><img src="/img/posts/2026-skills-originals/indie-development-01.svg" alt="一人开发的工具地图" width="1440" height="960" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 1 · 一人开发的工具地图</span>恢复原稿选型图：先跑通需求、实现与上线，再按真实缺口接入数据、邮件和观测。</figcaption>
+</figure>
 
 ## 2. 一个主力编程 Agent，加一条验收路径
 
@@ -76,6 +79,11 @@ Vercel Hobby 当前限定非商用个人用途；没有收入不能自动等同�
 
 对账单产品，上传接口可以很快返回任务标识，耗时解析在后台完成，前端查询状态。任务是否需要独立队列或工作进程，取决于处理时间、失败重试与部署限制。已有后端机制能解决时，先不用再接一套任务平台。
 
+<figure class="research-figure" id="figure-2">
+<a class="figure-open" href="/img/posts/2026-skills-originals/indie-development-02.svg" target="_blank" rel="noopener" aria-label="放大查看：部署路线怎么选"><img src="/img/posts/2026-skills-originals/indie-development-02.svg" alt="部署路线怎么选" width="1440" height="920" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 2 · 部署路线怎么选</span>恢复原稿三路线对照；按运行方式选择平台，图中工具不是必须同时接入的清单。</figcaption>
+</figure>
+
 ## 5. 数据、登录与文件：先选一套够用的服务
 
 数据库保存业务记录，认证识别用户，对象存储保存账单与报告。它们可以来自同一平台。对需要关系型数据的个人项目，Supabase 可以作为起步候选；如果已有稳定的数据库与认证方案，也没有必要仅为追新迁移。
@@ -90,15 +98,17 @@ Vercel Hobby 当前限定非商用个人用途；没有收入不能自动等同�
 
 编程 Agent 帮你开发账单产品；用户点击“生成报告”后，运行的是应用服务、解析器、模型 API、数据库和文件存储。开发订阅与产品运行费用属于两笔账，模型效果与交付代码的质量也需要分别评估。
 
-![图 2：机制与执行流程](/img/posts/2026-skills/indie-development-02.svg)
-
-*图 2：开发与产品运行的关系。线上调用不会因为开发时使用过某个订阅而自动免费。*
 
 模型接入先从简单接口开始。确实需要流式输出、结构化结果或工具调用时，再选择适合项目语言的 SDK；没有必要为了调用一次模型先搭建完整多 Agent 框架。
 
 对账单解析，成本应按完整请求计算：输入文件处理、模型输入输出、失败重试、结果校验与存储。只看一次成功调用的 token，会低估真实成本。质量评测也需要包含模糊扫描、跨页表格、不同币种与金额缺失，不能只测一份清晰样例。
 
 刚上线时，先记录三个产品事件：首次成功生成、用户遇到的关键失败、是否重复使用。已有日志足够排障，就先完善日志；需要分析漏斗或跨请求追踪时，再评估专门的分析与可观测服务。每增加一项采集，都应知道它帮助做什么决定。
+
+<figure class="research-figure" id="figure-3">
+<a class="figure-open" href="/img/posts/2026-skills-originals/indie-development-03.svg" target="_blank" rel="noopener" aria-label="放大查看：开发工作台与线上产品是两层系统"><img src="/img/posts/2026-skills-originals/indie-development-03.svg" alt="开发工作台与线上产品是两层系统" width="1440" height="1010" loading="lazy" decoding="async"></a>
+<figcaption><span class="figure-label">图 3 · 开发工作台与线上产品是两层系统</span>恢复原稿架构图；开发订阅与用户侧模型调用分开核算，工具仅代表可选实现。</figcaption>
+</figure>
 
 ## 7. 三个阶段，各自只补当前缺口
 

@@ -6,8 +6,8 @@
  * Register service worker.
  * ========================================================== */
 
-const PRECACHE = 'precache-20261007';
-const RUNTIME = 'runtime-20261007';
+const PRECACHE = 'precache-20261014';
+const RUNTIME = 'runtime-20261014';
 const HOSTNAME_WHITELIST = [
   self.location.hostname,
   "huangxuan.me",
