@@ -6,7 +6,7 @@
 .research-page .intro-header{background:#f1eee7!important;border-bottom:1px solid #e3dfd5;margin-bottom:40px}
 .research-page .intro-header .header-mask{display:none}
 .research-page .intro-header .post-heading{padding:130px 0 52px;color:#2c352e}
-.research-page .intro-header .post-heading h1{font-size:43px;line-height:1.4;letter-spacing:-.025em;font-weight:700}
+.research-page .intro-header .post-heading h1{text-wrap:balance;font-size:43px;line-height:1.4;letter-spacing:-.025em;font-weight:700}
 .research-page .intro-header .post-heading .subheading{font-size:19px;line-height:1.7;font-weight:400;color:#65695f;margin:18px 0 24px}
 .research-page .intro-header .post-heading .meta{font-family:inherit;font-size:12px;line-height:1.9;font-style:normal;color:#74776d}
 .research-page .intro-header .tags{margin-bottom:18px}
@@ -46,7 +46,7 @@
 .figure-viewport{height:calc(100% - 69px);padding:24px;overflow:auto;display:flex;align-items:flex-start;justify-content:center}
 .figure-viewport img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;margin:auto;flex-shrink:0}
 .figure-viewport.at-original-size{display:block}.figure-viewport.at-original-size img{width:auto;max-width:none;max-height:none;margin:0}
-@media(min-width:1200px){.research-page .post-container{width:780px;margin-left:120px}.research-page .intro-header .post-heading{max-width:780px}.research-page .research-figure{margin-left:-45px;margin-right:-45px}.research-page .catalog-container{width:165px;margin-left:50px;padding-left:20px}}
+@media(min-width:1200px){.research-page .intro-header .row>.col-lg-8{width:780px;margin-left:120px}.research-page .post-container{width:780px;margin-left:120px}.research-page .intro-header .post-heading{max-width:780px}.research-page .research-figure{margin-left:-45px;margin-right:-45px}.research-page .catalog-container{width:165px;margin-left:50px;padding-left:20px}}
 @media(max-width:767px){
  .research-page .intro-header{margin-bottom:26px}.research-page .intro-header .post-heading{padding:94px 4px 34px}.research-page .intro-header .post-heading h1{font-size:29px;line-height:1.5;letter-spacing:-.02em}.research-page .intro-header .post-heading .subheading{font-size:16px;margin:14px 0 18px}.research-page .intro-header .post-heading .meta{font-size:11px}
  .edited-article{font-size:16px;line-height:1.9}.edited-article h2{font-size:23px;margin-top:2.2em}.edited-article h3{font-size:19px}.research-figure{margin:27px -4px 30px}.research-figure .figure-open{padding:5px}.research-figure .figure-open::after{right:9px;bottom:9px;font-size:10px}.research-figure figcaption{font-size:12px;padding:0 4px}
