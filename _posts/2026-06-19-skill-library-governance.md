@@ -2,12 +2,10 @@
 layout: "post"
 title: "Agent Skills：技能库的冲突治理与版本发布"
 description: "从相似关系到不可变快照，让维护、实验和回滚都有依据"
-date: "2026-08-17 09:00:00 +0900"
-published_at: "2026-10-07T16:13:50+09:00"
+date: "2026-06-19 09:00:00 +0800"
 author: "Eric.Y"
 catalog: true
 edited_article: true
-visual_updated_at: "2026-10-14"
 tags: ["Agent", "Skills"]
 series: "skills"
 series_order: 4

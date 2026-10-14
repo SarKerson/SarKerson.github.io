@@ -6,8 +6,8 @@
  * Register service worker.
  * ========================================================== */
 
-const PRECACHE = 'precache-20261014';
-const RUNTIME = 'runtime-20261014';
+const PRECACHE = 'precache-20261014c';
+const RUNTIME = 'runtime-20261014c';
 const HOSTNAME_WHITELIST = [
   self.location.hostname,
   "huangxuan.me",
@@ -112,6 +112,11 @@ self.addEventListener('activate',  event => {
  */
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
+  const retiredArticlePaths = ["/2026/06/27/learning-skills/", "/2026/07/22/skill-evidence/", "/2026/08/17/skill-library-governance/", "/2026/09/11/skill-runtime/", "/2026/10/07/indie-development/"];
+  if (requestUrl.origin === self.location.origin && retiredArticlePaths.includes(requestUrl.pathname.replace(/\/?$/, "/"))) {
+    event.respondWith(fetch(event.request, {cache: "no-store"}));
+    return;
+  }
   if (requestUrl.origin === self.location.origin && /^\/2026\/06\/\d{2}\/readflow-(daily|weekly)\/?$/.test(requestUrl.pathname)) {
     event.respondWith(fetch(event.request, {cache: 'no-store'}));
     return;
